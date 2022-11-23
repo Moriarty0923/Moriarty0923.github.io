@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"moriarty0923.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Deterministic_Non-Autoregressive_Neural_Sequence_Modeling by Iterative Refinement">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deterministic_Non-Autoregressive_Neural_Sequence_Modeling">
+<meta property="og:url" content="https://moriarty0923.github.io/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/index.html">
+<meta property="og:site_name" content="Moriarty&#39; blog">
+<meta property="og:description" content="Deterministic_Non-Autoregressive_Neural_Sequence_Modeling by Iterative Refinement">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/image-20221122205839585.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/v2-d1d12b0aeec3e454ceeab28bb686b75a_1440w.webp">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/image-20221122212620013.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/image-20221122212635342.png">
+<meta property="article:published_time" content="2022-11-22T11:45:54.000Z">
+<meta property="article:modified_time" content="2022-11-23T11:11:19.645Z">
+<meta property="article:author" content="Moriarty">
+<meta property="article:tag" content="NLP">
+<meta property="article:tag" content="论文">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://moriarty0923.github.io/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/image-20221122205839585.png">
+
+<link rel="canonical" href="https://moriarty0923.github.io/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Deterministic_Non-Autoregressive_Neural_Sequence_Modeling | Moriarty' blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Moriarty' blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-books">
+
+    <a href="/books/" rel="section"><i class="fa fa-calendar fa-fw"></i>books</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Moriarty">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Moriarty' blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Deterministic_Non-Autoregressive_Neural_Sequence_Modeling
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-22 19:45:54" itemprop="dateCreated datePublished" datetime="2022-11-22T19:45:54+08:00">2022-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-23 19:11:19" itemprop="dateModified" datetime="2022-11-23T19:11:19+08:00">2022-11-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Deterministic_Non-Autoregressive_Neural_Sequence_Modeling by Iterative Refinement</strong></p>
+<span id="more"></span>
+
+<p>​	本文在NAT的基础上，引入L个中间随机变量作为隐变量进行迭代细化。</p>
+<p><img src="/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/image-20221122205839585.png" alt="image-20221122205839585"></p>
+<p>上式的意思是，假设有L次迭代，则第一次迭代仅依赖源语句X生成初始翻译结果 Y0 ，接着每一次迭代都根据源语句和上一轮迭代的结果来生成本轮的翻译结果。在每一次迭代里，作者提出了两种生成翻译结果的方法。一种是按照argmax取概率最大的词作为翻译结果，另一种是按照概率分布随机选取单词作为翻译结果。</p>
+<p>整个模型的结构如下图所示</p>
+<p><img src="/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/v2-d1d12b0aeec3e454ceeab28bb686b75a_1440w.webp" alt="img"></p>
+<p>Encoder 编码输入序列 X </p>
+<p>​	和transformer中的完全一样， 预测了target的长度</p>
+<p>Decoder1： $logp(Y^0|X)$   </p>
+<p>​	使用了额外的positional attention 并用 highway layer代替了residual layer</p>
+<p>​	原始输入X的长度根据 target 变化再输入到了decoder1中</p>
+<p>Decoder2： $logp(Y^l|Y^{l-1},X)$</p>
+<p>​	使用 $Y^{l-1}$的输出和上一步的激活 作为输入</p>
+<p>此外，除了直接取上一轮翻译的结果作为下一轮的解码器输入，作者还提出可以将这个过程建模为denoising autoencoder。即，将golden target sentence加入噪声之后再作为解码器输入，输出仍旧是golden sentence。文中提出的加入噪声的方法比较传统，如前后两词调换顺序，替换原词为词表中任意一词等。</p>
+<p>总体上，训练的模式是这样的：除了第一次迭代，每次迭代的decoder input要么是上一次迭代的输出，要么是对目标语句加入噪声后的结果，两种情况之间用一个超参控制。在模型上，如上图，作者使用了两个decoder。其中一个decoder只负责第一轮的迭代，另一个decoder负责之后的迭代。</p>
+<p><img src="/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/image-20221122212620013.png" alt="image-20221122212620013"></p>
+<p><img src="/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/image-20221122212635342.png" alt="image-20221122212635342"></p>
+<p>decoder2的输入到底是什么</p>
+<p>Denoising Autoencoder在哪里使用</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NLP/" rel="tag"># NLP</a>
+              <a href="/tags/%E8%AE%BA%E6%96%87/" rel="tag"># 论文</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/20/NON-AUTOREGRESSIVE-NEURAL-MACHINE-TRANSLATION/" rel="prev" title="NON-AUTOREGRESSIVE_NEURAL_MACHINE_TRANSLATION">
+      <i class="fa fa-chevron-left"></i> NON-AUTOREGRESSIVE_NEURAL_MACHINE_TRANSLATION
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/11/23/Mask-Predict-NAT/" rel="next" title="Mask-Predict_NAT">
+      Mask-Predict_NAT <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Moriarty</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://p7qnhh1nqx.feishu.cn/wiki/wikcnu4ROjCNXxoCk0jeOBmDwZc" title="https:&#x2F;&#x2F;p7qnhh1nqx.feishu.cn&#x2F;wiki&#x2F;wikcnu4ROjCNXxoCk0jeOBmDwZc" rel="noopener" target="_blank">工作日报</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/14898606/favlist" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;14898606&#x2F;favlist" rel="noopener" target="_blank">学习资源</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Moriarty</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
