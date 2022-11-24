@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"moriarty0923.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="**GLAT ** Glancing Transformer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GLAT">
+<meta property="og:url" content="https://moriarty0923.github.io/2022/11/24/GLAT/index.html">
+<meta property="og:site_name" content="Moriarty&#39; blog">
+<meta property="og:description" content="**GLAT ** Glancing Transformer">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/24/GLAT/image-20221124200124148.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/24/GLAT/image-20221124200824090.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/24/GLAT/image-20221124203238462.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/24/GLAT/image-20221124183610390.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/24/GLAT/image-20221124204746931.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/24/GLAT/image-20221124210627660.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/24/GLAT/image-20221124210858927.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/24/GLAT/image-20221124211101797.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/24/GLAT/image-20221124211605506.png">
+<meta property="article:published_time" content="2022-11-24T10:29:29.000Z">
+<meta property="article:modified_time" content="2022-11-24T13:17:26.495Z">
+<meta property="article:author" content="Moriarty">
+<meta property="article:tag" content="NLP">
+<meta property="article:tag" content="论文">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://moriarty0923.github.io/2022/11/24/GLAT/image-20221124200124148.png">
+
+<link rel="canonical" href="https://moriarty0923.github.io/2022/11/24/GLAT/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>GLAT | Moriarty' blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Moriarty' blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-books">
+
+    <a href="/books/" rel="section"><i class="fa fa-calendar fa-fw"></i>books</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/11/24/GLAT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Moriarty">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Moriarty' blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GLAT
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-11-24 18:29:29 / 修改时间：21:17:26" itemprop="dateCreated datePublished" datetime="2022-11-24T18:29:29+08:00">2022-11-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>**GLAT **</p>
+<p><strong>Glancing Transformer</strong></p>
+<span id="more"></span>
+
+<p>​		非自回归神经机器翻译 (NAT) 的工作旨在通过并行解码提高效率而不牺牲质量。然而，现有的 NAT 方法要么不如 Transformer，要么需要多次解码，导致模型速度降低。作者提出了 Glancing 语言模型 (GLM)，这是一种学习single-pass并行生成模型的单词相互依赖性的方法。 通过 GLM，作者开发了用于机器翻译的 Glancing Transformer (GLAT)。 仅通过<strong>single-pass</strong>并行解码，GLAT 就能够生成高质量翻译。 </p>
+<p><img src="/2022/11/24/GLAT/image-20221124200124148.png" alt="image-20221124200124148"></p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>​		作者认为一般的NAT的条件独立假设阻止了学习目标句子中单词间的相互依赖性。后来的工作，如 Iterative refinement ， 包括mask-predict，其实都是通过<strong>迭代</strong>的方法尝试补救这种依赖性，由于这些方法需要多次解码，因此其生成速度明显低于普通NAT。</p>
+<p>​		作者提出了glancing language model（GLM），这是一种训练概率序列模型的新方法。 基于GLM，作者开发了用于神经机器翻译的glance Transformer (GLAT)。 它仅通过一次解码就实现了并行文本生成。 </p>
+<p>​		与之前 <strong>MaskLM</strong>有两点不同。 一是 GLM提出一种自适应扫视采样策略，它使 <strong>GLAT</strong> 以一次迭代的方式生成句子，通过逐步训练而不是迭代推理来工作。 二是 使用相应位置在encoder中的表示来代替 <strong>[MASK]</strong></p>
+<h2 id="Glancing-Transformer"><a href="#Glancing-Transformer" class="headerlink" title="Glancing Transformer"></a>Glancing Transformer</h2><p>​		作者认为自己提出的GLAT相比于vanilla NAT的区别在于它通过GLM显式鼓励词间依赖的学习；相比于使用MLM的迭代NAT的区别在于它被训练用于single-pass并行解码，而 MLM 用于优化预测。</p>
+<p><img src="/2022/11/24/GLAT/image-20221124200824090.png" alt="image-20221124200824090"></p>
+<p>​	其中， $Y$^  是初始的预测结果 ， $GS$($Y$，$Y$^)表示 是通过 glancing sampling strategy选出的子集 。</p>
+<h3 id="Y"><a href="#Y" class="headerlink" title="Y^"></a>Y^</h3><p>​	初始的预测结果 $Y$^ 是由最大化概率  f<del>dec</del>(f<del>enc</del>(X ; θ) , H , θ)  得到的</p>
+<p>其中 H &#x3D;{ h<del>1</del>,h<del>2</del>, … ,h<del>T</del>} 是由encoder输出 通过 uniform copy 或 soft copy得到的。</p>
+<h3 id="GS"><a href="#GS" class="headerlink" title="GS"></a>GS</h3><p>​		<strong>The Glancing Sampling Strategy</strong> 由两步组成。一是 确定一个采样数量 <strong>S</strong>  , 二是 从refernce中<strong>随机</strong>选择S个词 </p>
+<p>​		<strong>S</strong> &#x3D; λ · d ($Y$，$Y$^)  ,  d是初始预测结果 Y^ 和 refernce Y 之间的一个距离函数，文中采用了汉明距离。在训练开始时，两者差异比较大，S较大，选取的tokens多，训练后期，两者差距减小，S随之变小，选取的tokens变少，因此是自适应的采样策略。</p>
+<p>​		确定了数量S后， tokens的选择在文中采取了随机选择的方式 。 </p>
+<p>因此公式可由下式表示：</p>
+<p><img src="/2022/11/24/GLAT/image-20221124203238462.png" alt="image-20221124203238462"></p>
+<p><img src="/2022/11/24/GLAT/image-20221124183610390.png" alt="image-20221124183610390"></p>
+<h3 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h3><p>​	有些疑问</p>
+<p>​	</p>
+<p><img src="/2022/11/24/GLAT/image-20221124204746931.png" alt="image-20221124204746931"></p>
+<p>这里的Emb指什么</p>
+<p>​		原文中 <strong>”Here the word embeddings are obtained from the softmax embedding matrix of the decoder“</strong></p>
+<p>​		但上文中 <strong>”GLM directly uses representations from the encoder at corresponding positions“</strong></p>
+<h2 id="Inference"><a href="#Inference" class="headerlink" title="Inference"></a>Inference</h2><p>​		GLAT 只修改训练过程。它的推理是完全并行的，只有single-pass。</p>
+<p>​		和 mask-predict 中使用的方法一样，将额外的 [LENGTH] token添加到源输入，并使用 [LENGTH] token的编码器输出来预测长度。同时加上了 <strong>NPD</strong> 和 <strong>CTC</strong> 两种方法更好的选择长度。</p>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><p><img src="/2022/11/24/GLAT/image-20221124210627660.png" alt="image-20221124210627660"></p>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><ul>
+<li><h4 id="Effect-of-Source-Input-Length"><a href="#Effect-of-Source-Input-Length" class="headerlink" title="Effect of Source Input Length"></a>Effect of Source Input Length</h4><ul>
+<li>输入句子的长度是否对效果有影响</li>
+<li><img src="/2022/11/24/GLAT/image-20221124210858927.png" alt="image-20221124210858927"><ul>
+<li>在输入长度小于20时，GLAT的效果超过了AR</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="GLAT-Reduces-Repetition"><a href="#GLAT-Reduces-Repetition" class="headerlink" title="GLAT Reduces Repetition"></a>GLAT Reduces Repetition</h4><ul>
+<li>是否减少了重复性</li>
+<li><img src="/2022/11/24/GLAT/image-20221124211101797.png" alt="image-20221124211101797"><ul>
+<li>减少了重复出现的次数，原因可能是显式的鼓励了词之间相互依赖建模，更好的捕捉了目标token之间的依赖关系。</li>
+<li>使用NPD可以进一步减少</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="the-Adaptive-Sampling-Number-x2F-Word-Selection"><a href="#the-Adaptive-Sampling-Number-x2F-Word-Selection" class="headerlink" title="the Adaptive Sampling Number&#x2F; Word Selection"></a>the Adaptive Sampling Number&#x2F; Word Selection</h4><ul>
+<li>自适应的采样数量是否合理</li>
+<li>随机选择单词是否合理<ul>
+<li><img src="/2022/11/24/GLAT/image-20221124211605506.png" alt="image-20221124211605506"></li>
+<li>简单又好</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h3><ul>
+<li>替换</li>
+<li>用GLAT来首次迭代，再用mask训练效果是不是更好</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NLP/" rel="tag"># NLP</a>
+              <a href="/tags/%E8%AE%BA%E6%96%87/" rel="tag"># 论文</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/23/Mask-Predict-NAT/" rel="prev" title="Mask-Predict_NAT">
+      <i class="fa fa-chevron-left"></i> Mask-Predict_NAT
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Glancing-Transformer"><span class="nav-number">2.</span> <span class="nav-text">Glancing Transformer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Y"><span class="nav-number">2.1.</span> <span class="nav-text">Y^</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GS"><span class="nav-number">2.2.</span> <span class="nav-text">GS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2"><span class="nav-number">2.3.</span> <span class="nav-text">替换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inference"><span class="nav-number">3.</span> <span class="nav-text">Inference</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Experiment"><span class="nav-number">4.</span> <span class="nav-text">Experiment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis"><span class="nav-number">5.</span> <span class="nav-text">Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Effect-of-Source-Input-Length"><span class="nav-number">5.0.1.</span> <span class="nav-text">Effect of Source Input Length</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GLAT-Reduces-Repetition"><span class="nav-number">5.0.2.</span> <span class="nav-text">GLAT Reduces Repetition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#the-Adaptive-Sampling-Number-x2F-Word-Selection"><span class="nav-number">5.0.3.</span> <span class="nav-text">the Adaptive Sampling Number&#x2F; Word Selection</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q"><span class="nav-number">5.1.</span> <span class="nav-text">Q</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Moriarty</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://p7qnhh1nqx.feishu.cn/wiki/wikcnu4ROjCNXxoCk0jeOBmDwZc" title="https:&#x2F;&#x2F;p7qnhh1nqx.feishu.cn&#x2F;wiki&#x2F;wikcnu4ROjCNXxoCk0jeOBmDwZc" rel="noopener" target="_blank">工作日报</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/14898606/favlist" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;14898606&#x2F;favlist" rel="noopener" target="_blank">学习资源</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Moriarty</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

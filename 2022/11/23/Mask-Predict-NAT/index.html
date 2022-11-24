@@ -27,10 +27,15 @@
 <meta property="og:site_name" content="Moriarty&#39; blog">
 <meta property="og:description" content="Mask-Predict: Parallel Decoding of Conditional Masked Language Models">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/23/Mask-Predict-NAT/image-20221123220632286.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/23/Mask-Predict-NAT/image-20221123215858059.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/23/Mask-Predict-NAT/image-20221123220132559.png">
+<meta property="og:image" content="https://moriarty0923.github.io/2022/11/23/Mask-Predict-NAT/image-20221124210719673.png">
 <meta property="article:published_time" content="2022-11-23T13:18:35.000Z">
-<meta property="article:modified_time" content="2022-11-23T13:20:23.028Z">
+<meta property="article:modified_time" content="2022-11-24T13:07:22.616Z">
 <meta property="article:author" content="Moriarty">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://moriarty0923.github.io/2022/11/23/Mask-Predict-NAT/image-20221123220632286.png">
 
 <link rel="canonical" href="https://moriarty0923.github.io/2022/11/23/Mask-Predict-NAT/">
 
@@ -187,10 +192,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-11-23 21:18:35 / 修改时间：21:20:23" itemprop="dateCreated datePublished" datetime="2022-11-23T21:18:35+08:00">2022-11-23</time>
+              <time title="创建时间：2022-11-23 21:18:35" itemprop="dateCreated datePublished" datetime="2022-11-23T21:18:35+08:00">2022-11-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-24 21:07:22" itemprop="dateModified" datetime="2022-11-24T21:07:22+08:00">2022-11-24</time>
+              </span>
 
           
 
@@ -206,6 +217,60 @@
         <p><strong>Mask-Predict: Parallel Decoding of Conditional Masked Language Models</strong></p>
 <span id="more"></span>
 
+
+
+<p>​	本文介绍了 conditional masked language models (CMLMs) 和mask-predict解码算法 ，该算法利用它们的并行性在恒定的解码迭代次数中生成文本。</p>
+<h3 id="长度预测"><a href="#长度预测" class="headerlink" title="长度预测"></a>长度预测</h3><p>​		在encoder中加入一个特殊的 $LENGTH$ token ， 类似于 BRET 中的CLS ，encoder在训练后预测长度N，输入到decoder</p>
+<p>​		在实验中，我们选择了可能性最高的 $l$ 个$LENGTH$ , 并对同一输入进行不同长度的解码，最终选取 平均对数概率最大 的结果作为输出</p>
+<p><img src="/2022/11/23/Mask-Predict-NAT/image-20221123220632286.png" alt="image-20221123220632286"></p>
+<h3 id="CMLM"><a href="#CMLM" class="headerlink" title="CMLM"></a>CMLM</h3><p>​		<strong>conditional masked language model (CMLM)</strong></p>
+<p>​		给定原句 X 和 目标句子的部分tokens Y<del>obs</del>，来预测目标句子的剩余部分 Y<del>mask</del></p>
+<p>这是基于 Y<del>mask</del>中的词 在给定 X 和 Y<del>obs</del>时 是相互条件独立的强假设上的。</p>
+<p>​		句子的长度 N &#x3D;  |Y<del>mask</del>| + |Y<del>obs</del>|     即两者长度之和。</p>
+<h3 id="MASK"><a href="#MASK" class="headerlink" title="MASK"></a>MASK</h3><p>​		在encoder端得到目标序列长度的预测 N 后， 我们可以定义2个变量。</p>
+<ul>
+<li><p>target sequence (y<del>1</del>,y<del>2</del>,,,,y<del>N</del>)</p>
+</li>
+<li><p>每个位置的可能性(p<del>1</del>,p<del>2</del>,,,,,p<del>N</del>)</p>
+</li>
+</ul>
+<p>  对于第1次迭代 ( t &#x3D; 0)，我们mask所有的token。对于后面的迭代，我们将概率得分p最低的 n 个 tokens 进行 mask 。</p>
+<p>  其中 n 由下式得到</p>
+<p>  ​							<img src="/2022/11/23/Mask-Predict-NAT/image-20221123215858059.png" alt="image-20221123215858059">			</p>
+<p>  T为总的迭代轮数，t为当前迭代轮数，t越大 ， n越小 ， mask数量越少。</p>
+<h3 id="Predict"><a href="#Predict" class="headerlink" title="Predict"></a>Predict</h3><p>​	在对句子进行mask后，我们通过源句子 X 和 没有被mask的Y<del>obs</del> 来预测 Y<del>mask</del>， Y<del>mask</del>选择最大可能的token。并更新这一位置上概率分数p。对于没有遮掩的位置Y<del>obs</del>，它们的概率值保持不变。</p>
+<p><img src="/2022/11/23/Mask-Predict-NAT/image-20221123220132559.png" alt="image-20221123220132559"></p>
+<p>​	上图是一个例子。</p>
+<p>​	</p>
+<h3 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h3><p><img src="/2022/11/23/Mask-Predict-NAT/image-20221124210719673.png" alt="image-20221124210719673"></p>
+<h3 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h3><ul>
+<li><h5 id="Why-Are-Multiple-Iterations-Necessary"><a href="#Why-Are-Multiple-Iterations-Necessary" class="headerlink" title="Why Are Multiple Iterations Necessary?"></a>Why Are Multiple Iterations Necessary?</h5><ul>
+<li>为什么需要多次的迭代</li>
+<li>多次$mask-predict$迭代通过允许模型对部分输入进行条件化来缓解多模态问题<ul>
+<li>输入的句子中的 Y<del>obs</del> 为之后的预测提供了一些限制条件，缓解了 multi-modality 的问题</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h5 id="Do-Longer-Sequences-Need-More-Iterations"><a href="#Do-Longer-Sequences-Need-More-Iterations" class="headerlink" title="Do Longer Sequences Need More Iterations?"></a>Do Longer Sequences Need More Iterations?</h5><ul>
+<li>长句子是否需要更多次的迭代</li>
+<li>实验显示确实有提示，但即使迭代次数较少，也口译达到较好的效果</li>
+</ul>
+</li>
+<li><h5 id="Do-More-Length-Candidates-Help"><a href="#Do-More-Length-Candidates-Help" class="headerlink" title="Do More Length Candidates Help?"></a>Do More Length Candidates Help?</h5><ul>
+<li>选取更多可能的长度是否会使结果更好</li>
+<li>有提高，但太多的话反而会下降<ul>
+<li>和beam serch不一样，有太多候选长度话，可能会选到 概率较小的长度(比如一个很短的长度) ， 但在这个长度下，其输出有一个很高的对数平均概率，导致错误的结果</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h5 id="Is-Model-Distillation-Necessary"><a href="#Is-Model-Distillation-Necessary" class="headerlink" title="Is Model Distillation Necessary?"></a>Is Model Distillation Necessary?</h5><ul>
+<li>Distillation 是否有必要?</li>
+<li>实验结果显示很有必要</li>
+</ul>
+</li>
+</ul>
 
     </div>
 
@@ -224,7 +289,10 @@
     <a href="/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/" rel="prev" title="Deterministic_Non-Autoregressive_Neural_Sequence_Modeling">
       <i class="fa fa-chevron-left"></i> Deterministic_Non-Autoregressive_Neural_Sequence_Modeling
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/11/24/GLAT/" rel="next" title="GLAT">
+      GLAT <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -283,6 +351,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%BF%E5%BA%A6%E9%A2%84%E6%B5%8B"><span class="nav-number">1.</span> <span class="nav-text">长度预测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMLM"><span class="nav-number">2.</span> <span class="nav-text">CMLM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MASK"><span class="nav-number">3.</span> <span class="nav-text">MASK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Predict"><span class="nav-number">4.</span> <span class="nav-text">Predict</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Experiment"><span class="nav-number">5.</span> <span class="nav-text">Experiment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis"><span class="nav-number">6.</span> <span class="nav-text">Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Why-Are-Multiple-Iterations-Necessary"><span class="nav-number">6.0.1.</span> <span class="nav-text">Why Are Multiple Iterations Necessary?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Do-Longer-Sequences-Need-More-Iterations"><span class="nav-number">6.0.2.</span> <span class="nav-text">Do Longer Sequences Need More Iterations?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Do-More-Length-Candidates-Help"><span class="nav-number">6.0.3.</span> <span class="nav-text">Do More Length Candidates Help?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Is-Model-Distillation-Necessary"><span class="nav-number">6.0.4.</span> <span class="nav-text">Is Model Distillation Necessary?</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -296,7 +365,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
