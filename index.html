@@ -185,7 +185,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-12-08 20:51:01 / 修改时间：21:31:48" itemprop="dateCreated datePublished" datetime="2022-12-08T20:51:01+08:00">2022-12-08</time>
+              <time title="创建时间：2022-12-08 20:51:01 / 修改时间：21:49:57" itemprop="dateCreated datePublished" datetime="2022-12-08T20:51:01+08:00">2022-12-08</time>
             </span>
 
           
@@ -199,38 +199,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th align="center">raw data</th>
-<th align="center">distilled data</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>disco&#x2F; mask-predict</strong></td>
-<td align="center">31.40</td>
-<td align="center">33.27</td>
-</tr>
-<tr>
-<td><strong>disco&#x2F; easy-first</strong></td>
-<td align="center">31.36</td>
-<td align="center">33.43</td>
-</tr>
-</tbody></table>
-<p><strong>数据集</strong>   iwslt14de-en</p>
-<p><strong>模型参数</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@register_model_architecture(<span class="params"><span class="string">&quot;disco_transformer&quot;</span>, <span class="string">&quot;disco_transformer_iwslt14_de_en&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">disco_iwslt14_de_en</span>(<span class="params">args</span>):</span><br><span class="line">    args.encoder_embed_dim = <span class="built_in">getattr</span>(args, <span class="string">&quot;encoder_embed_dim&quot;</span>, <span class="number">512</span>)</span><br><span class="line">    args.encoder_ffn_embed_dim = <span class="built_in">getattr</span>(args, <span class="string">&quot;encoder_ffn_embed_dim&quot;</span>, <span class="number">1024</span>)</span><br><span class="line">    args.encoder_layers = <span class="built_in">getattr</span>(args, <span class="string">&quot;encoder_layers&quot;</span>, <span class="number">6</span>)</span><br><span class="line">    args.encoder_attention_heads = <span class="built_in">getattr</span>(args, <span class="string">&quot;encoder_attention_heads&quot;</span>, <span class="number">4</span>)</span><br><span class="line">    args.decoder_embed_dim = <span class="built_in">getattr</span>(args, <span class="string">&quot;decoder_embed_dim&quot;</span>, args.encoder_embed_dim)</span><br><span class="line">    args.decoder_ffn_embed_dim = <span class="built_in">getattr</span>(</span><br><span class="line">        args, <span class="string">&quot;decoder_ffn_embed_dim&quot;</span>, args.encoder_ffn_embed_dim</span><br><span class="line">    )</span><br><span class="line">    args.decoder_layers = <span class="built_in">getattr</span>(args, <span class="string">&quot;decoder_layers&quot;</span>, <span class="number">6</span>)</span><br><span class="line">    args.decoder_attention_heads = <span class="built_in">getattr</span>(args, <span class="string">&quot;decoder_attention_heads&quot;</span>, <span class="number">4</span>)</span><br><span class="line">    base_architecture(args)</span><br></pre></td></tr></table></figure>
-
-<p><strong>训练参数</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">model_dir=mydisco_small</span><br><span class="line"></span><br><span class="line">CUDA_VISIBLE_DEVICES=4 python train.py data-bin/iwslt14de-en --arch disco_transformer_iwslt14_de_en &gt;&gt; disco-iwslt14-raw-de-en.log \</span><br><span class="line">    --criterion label_smoothed_length_cross_entropy --label-smoothing 0.1 --lr 5e-4 \</span><br><span class="line">    --warmup-init-lr 1e-7 --min-lr 1e-9 --lr-scheduler inverse_sqrt --warmup-updates 10000 \</span><br><span class="line">    --optimizer adam --adam-betas &#x27;(0.9, 0.999)&#x27; --adam-eps 1e-6 --task translation_self --source-lang de --target-lang en\</span><br><span class="line">    --max-tokens 8192 --weight-decay 0.01 --dropout 0.3  --fp16 --max-source-positions 10000 \</span><br><span class="line">    --max-target-positions 10000 --max-update 300000 --seed 1 \</span><br><span class="line">    --save-dir $&#123;model_dir&#125; --dynamic-masking  --ignore-eos-loss --share-all-embeddings --log-interval 100 \</span><br><span class="line">    2&gt;&amp;1 &amp;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>生成参数</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">de_strategy=mask_predict</span><br><span class="line"></span><br><span class="line">model_dir=mydisco_small</span><br><span class="line">CUDA_VISIBLE_DEVICES=2 python generate_disco.py data-bin/iwslt14de-en --path $&#123;model_dir&#125;/checkpoint_best_avg5.pt &gt;test-result/iwslt14de-en_raw_$de_strategy.result\</span><br><span class="line">--task translation_self --source-lang de --target-lang en --remove-bpe --max-sentences 20 --decoding-iterations 10 \</span><br><span class="line">--decoding-strategy $de_strategy --length-beam 3</span><br><span class="line"><span class="meta prompt_">2&gt;</span><span class="language-bash">&amp;1 &amp;</span></span><br></pre></td></tr></table></figure>
-
-
+          <p><strong>在iwslt14de-en数据集上跑的disco</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/12/08/disco-1208/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -272,10 +249,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-11-26 16:33:47 / 修改时间：21:28:47" itemprop="dateCreated datePublished" datetime="2022-11-26T16:33:47+08:00">2022-11-26</time>
+              <time title="创建时间：2022-11-26 16:33:47" itemprop="dateCreated datePublished" datetime="2022-11-26T16:33:47+08:00">2022-11-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-08 21:43:34" itemprop="dateModified" datetime="2022-12-08T21:43:34+08:00">2022-12-08</time>
+              </span>
 
           
 
@@ -289,7 +272,6 @@
 
       
           <p><strong>CMLMC</strong></p>
-<p><strong>IMPROVING NON-AUTOREGRESSIVE TRANSLATION MODELS WITHOUT DISTILLATION</strong></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/11/26/NAT-without-distillation-CMLMC/#more" rel="contents">
@@ -339,10 +321,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-11-24 18:29:29 / 修改时间：21:17:26" itemprop="dateCreated datePublished" datetime="2022-11-24T18:29:29+08:00">2022-11-24</time>
+              <time title="创建时间：2022-11-24 18:29:29" itemprop="dateCreated datePublished" datetime="2022-11-24T18:29:29+08:00">2022-11-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-08 21:43:51" itemprop="dateModified" datetime="2022-12-08T21:43:51+08:00">2022-12-08</time>
+              </span>
 
           
 
@@ -355,8 +343,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>**GLAT **</p>
-<p><strong>Glancing Transformer</strong></p>
+          <p><strong>Glancing Transformer</strong></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/11/24/GLAT/#more" rel="contents">
@@ -397,7 +384,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/11/23/Mask-Predict-NAT/" class="post-title-link" itemprop="url">Mask-Predict_NAT</a>
+            <a href="/2022/11/23/Mask-Predict-NAT/" class="post-title-link" itemprop="url">Mask-Predict-NAT</a>
         </h2>
 
         <div class="post-meta">
@@ -414,7 +401,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-03 21:46:50" itemprop="dateModified" datetime="2022-12-03T21:46:50+08:00">2022-12-03</time>
+                <time title="修改时间：2022-12-08 21:45:39" itemprop="dateModified" datetime="2022-12-08T21:45:39+08:00">2022-12-08</time>
               </span>
 
           
@@ -428,7 +415,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>Mask-Predict: Parallel Decoding of Conditional Masked Language Models</strong></p>
+          <p><strong>Mask-Predict_NAT</strong></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/11/23/Mask-Predict-NAT/#more" rel="contents">
@@ -486,7 +473,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-23 19:11:19" itemprop="dateModified" datetime="2022-11-23T19:11:19+08:00">2022-11-23</time>
+                <time title="修改时间：2022-12-08 21:48:29" itemprop="dateModified" datetime="2022-12-08T21:48:29+08:00">2022-12-08</time>
               </span>
 
           
@@ -500,7 +487,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>Deterministic_Non-Autoregressive_Neural_Sequence_Modeling by Iterative Refinement</strong></p>
+          <p><strong>迭代NAT</strong></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/#more" rel="contents">
@@ -558,7 +545,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-21 16:46:45" itemprop="dateModified" datetime="2022-11-21T16:46:45+08:00">2022-11-21</time>
+                <time title="修改时间：2022-12-08 21:46:46" itemprop="dateModified" datetime="2022-12-08T21:46:46+08:00">2022-12-08</time>
               </span>
 
           
@@ -572,7 +559,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>NON-AUTOREGRESSIVE_NEURAL_MACHINE_TRANSLATION</strong></p>
+          <p><strong>NAT with feritility</strong></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/11/20/NON-AUTOREGRESSIVE-NEURAL-MACHINE-TRANSLATION/#more" rel="contents">
@@ -978,7 +965,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
