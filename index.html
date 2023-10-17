@@ -160,7 +160,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/12/08/disco-1208/">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2023/10/17/text-generation-via-bert-family/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -174,7 +174,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/12/08/disco-1208/" class="post-title-link" itemprop="url">disco_1208</a>
+            <a href="/2023/10/17/text-generation-via-bert-family/" class="post-title-link" itemprop="url">text_generation_via_bert_family</a>
         </h2>
 
         <div class="post-meta">
@@ -185,7 +185,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-12-08 20:51:01 / 修改时间：21:49:57" itemprop="dateCreated datePublished" datetime="2022-12-08T20:51:01+08:00">2022-12-08</time>
+              <time title="创建时间：2023-10-17 21:51:46 / 修改时间：21:53:28" itemprop="dateCreated datePublished" datetime="2023-10-17T21:51:46+08:00">2023-10-17</time>
             </span>
 
           
@@ -199,15 +199,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>在iwslt14de-en数据集上跑的disco</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/12/08/disco-1208/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+
+
+<p>TEXT GENERATION VIA BERT FAMILY</p>
+<p>The BERT model, introduced by Devlin et al. (2018), marked a breakthrough in NLP by leveraging the Transformer architecture and large-scale pretraining. The BERT model architecture is a multi-layer bidirectional Transformer encoder (Vaswani et al. 2017) with stacked L<br>identical blocks, in which each block comprises two sub-<br>layers: a multi-head self-attention layer and the fully con-<br>nected feed-forward layer. 双向的建模特性使BERT learns contextual word representations , enabling it to capture rich semantic information.</p>
+<p> BERT, introduced by Devlin et al. (2018), revolutionized the field of Natural Language Processing (NLP) by leveraging the Transformer architecture and large-scale pretraining. BERT is a typical encoder-only architecture, consisting of multi-layer bidirectional Transformer encoder (Vaswani et al., 2017) with stacked identical blocks. Each block comprises two sub-layers: a multi-head self-attention layer and a fully connected feed-forward layer. The bidirectional modeling characteristic of BERT enables it to learn contextual word representations, facilitating the capture of comprehensive semantic information. Building upon the foundation laid by BERT, researchers have further explored and expanded the capabilities of original BERT architecture, leading to the development of the BERT family, such as  RoBERTa (Liu et al. 2019), Electra (Clark et al. 2020), DeBERTa (He et al.2020), and XLM-R (Conneau et al. 2020) et al. The BERT family represents a collective endeavor to advance the field of NLP, with each member contributing unique insights and innovations.</p>
+<p>With their encoder structure and parallelizable masked language model (MLM) objective, the BERT family is renowned for its ability  in natural language understanding (NLU) tasks. However,  there is a scarcity of research that delves into their potential for text generation tasks.</p>
+<p>Previous works (Dong et al., 2019; Wang et al., 2019) have theoretically indicated that BERT family can be treated as Markov Random Field Language Model, which can produce high-quality and fluent textual content. However, BERT family is stiil typically used to extract context features instead of generating texts (Zhu et al. 2019; Guo et al. 2020; Yang et al.2020). One exception is LongBert (2023), which incorpoationg non-autogressive generation into text generation via pre-trained MLMs.</p>
+<p> lthough these methods<br>can introduce the BERT structure in text generation tasks<br>with positive feedback on performance, they still limit the<br>use of the BERT family in text generation, either because of<br>additional task-specific parameters or extra pre-training.</p>
+<p>the MLM encoder can support text generation tasks via 178 attention masks or Gibbs sampling.</p>
+<p>even with the theoretical discovery that MLM can be treated<br>as a Markov Random Field Language Model, which can pro-<br>duce high-quality and fluent textual content.</p>
+<p>previous works are </p>
+<p>Pre-trained MLMs are typically used as the encoder 174 to extract the representations of sentences instead 175 of generating texts. Previous works (Dong et al., 176 2019; Wang et al., 2019) have indicated that the 177 MLM encoder can support text generation tasks via 178 attention masks or Gibbs sampling. In contrast, we 179 introduce mixed attention and parameter sharing to 180 the encoder-based model to solve the sequence to 181 sequence tasks, as shown in Figure 1.</p>
+<p>Instruction tuning refers to the process of fine-tuning LLMs on an instruction dataset consisting of (INSTRUCTION, OUTPUT) pairs in a supervised fashion, which narrows the gap between the next-word prediction objective of LLMs and the users’ objective of having LLMs adhere to human instructions (Zhang). The concept of consolidating diverse NLP tasks as generative tasks was pioneered by the T5 model (Raffel et al., 2020). By utilizing task-specific prompts to guide the model, it becomes easier to apply LLMs to a wide range of applications. Subsequent instruction tuning models, such as FLAN (Wei et al., 2021; Chung et al., 2022) and T0 (Sanh et al., 2021), have further improved performance across diverse tasks by incorporating more task-specific instructions during the pre-training phase. Currently, instruction tuning represents an important research direction in NLP. The open-source community offers a variety of instruction datasets, such as xP3 (Muennighoff et al., 2022), Alpaca (Taori et al., 2023), and Dolly (Conover et al., 2023), as well as instruction fine-tuned LLMs, such as BLOOMZ (Muennighoff et al., 2022), FLAN-T5 (Chung et al., 2022), and Alpaca (Taori et al., 2023). However, the backbone of present instruction fine-tuned LLMs is mainly encoder-decoder and decoder-only based. The instruction-following capabilities of the BERT family, which are encoder-only based models, are severely under-explored. In this work, we introduced Instruct-XMLR to explore the potential and limitations of the BERT family for instruction-following.</p>
+<p>Non-autoregressive generation allows for parallel generation, where tokens are generated simultaneously without relying on previous generation results.</p>
+<p>Non-autoregressive (NAR) models (Oord et al., 2017; Gu et al., 2017; Chen et al., 2019; Ren et al., 2019), which generate all the tokens in a target sequence in parallel are widely explored in natural language processing tasks (Gu et al., 2017; Lee et al., 2018; Guo et al., 2019a; Wang et al., 2019; Li et al., 2019b; Guo et al., 2019b). Parallel sequence decoding hugely reduces the inference latency by neglecting the conditional dependency between output tokens, based on novel decoding algorithms including nonautoregressive decoding , insertion-based decoding  and Mask-Predict. A typical model is CMLM, which can refinement the results conditioned on the predictions from previous iterations.</p>
+<p>Non-autoregressive (NAR) models generate all the tokens of a sequence in parallel, resulting in faster generation speed compared to their autoregressive (AR) counterparts but at the cost of lower accuracy.</p>
+<p>Non-autoregressive generation is a text generation approach that differs from traditional autoregressive methods. In autoregressive generation, each generated token depends on previously generated tokens, resulting in a sequential generation process where one token is generated at a time. In contrast, non-autoregressive generation allows for parallel generation, where tokens are generated simultaneously without relying on previous generation results.</p>
+<p>The main advantage of non-autoregressive generation is its speed. By enabling parallel processing, non-autoregressive models can generate text much faster compared to autoregressive models. This makes non-autoregressive generation particularly useful for large-scale text generation tasks such as machine translation, summarization, and dialogue systems.</p>
+<p>However, non-autoregressive generation also faces challenges. Since it does not rely on context information from previous tokens, there is a risk of generating text that lacks coherence and consistency. To mitigate this issue, researchers have proposed various techniques, including the use of masking mechanisms, leveraging pre-trained models, and incorporating additional constraints.</p>
+<p>Recent works~\cite{chan2019recurrent,jiang2021improving,su2021non,liang2023open} explore the application of the BERT family in non-autoregressive generation using MLM, and receive positive feedback regarding performance. Non-autoregressive generation hugely reduces the inference latency by neglecting the conditional dependency between output tokens based on novel decoding algorithms. </p>
+<p>A notable model in this category is CMLM, which extends the conditional masked language modeling (MLM) technique and refines the results based on predictions from previous iterations. Found that the conditional MLM and Mask-Predict are suitable for the BERT family, which keeps the training and inference objective consistent with pre-training. In our work, we further utilize CMLM to adapt the BERT structure for text generation, incorporating our proposed dynamic mixed-attention mechanism.</p>
+
       
     </div>
 
@@ -226,7 +241,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/11/26/NAT-without-distillation-CMLMC/">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2023/10/09/small-models-reasoning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -240,7 +255,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/11/26/NAT-without-distillation-CMLMC/" class="post-title-link" itemprop="url">NAT_without_distillation_CMLMC</a>
+            <a href="/2023/10/09/small-models-reasoning/" class="post-title-link" itemprop="url">small_models_reasoning</a>
         </h2>
 
         <div class="post-meta">
@@ -250,14 +265,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-11-26 16:33:47" itemprop="dateCreated datePublished" datetime="2022-11-26T16:33:47+08:00">2022-11-26</time>
+              <time title="创建时间：2023-10-09 15:19:44" itemprop="dateCreated datePublished" datetime="2023-10-09T15:19:44+08:00">2023-10-09</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-08 21:43:34" itemprop="dateModified" datetime="2022-12-08T21:43:34+08:00">2022-12-08</time>
+                <time title="修改时间：2023-10-16 19:28:47" itemprop="dateModified" datetime="2023-10-16T19:28:47+08:00">2023-10-16</time>
               </span>
 
           
@@ -271,15 +286,74 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>CMLMC</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/11/26/NAT-without-distillation-CMLMC/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+<h5 id="“prompt-based-CoT-methods-are-dependent-on-very-large-models-such-as-GPT-3-175B-which-are-prohibitive-to-deploy-at-scale"><a href="#“prompt-based-CoT-methods-are-dependent-on-very-large-models-such-as-GPT-3-175B-which-are-prohibitive-to-deploy-at-scale" class="headerlink" title="“prompt-based CoT methods are dependent on very large models such as GPT-3 175B which are prohibitive to deploy at scale."></a>“prompt-based CoT methods are dependent on very large models such as GPT-3 175B which are prohibitive to deploy at scale.</h5><p>  基于提示的 CoT 方法依赖于非常大的模型，例如 GPT-3 175B，这些模型无法大规模部署。</p>
+<h4 id="Another-thread-of-research-has-also-explored-the-distillation-of-knowledge-from-LLMs-to-smaller-models"><a href="#Another-thread-of-research-has-also-explored-the-distillation-of-knowledge-from-LLMs-to-smaller-models" class="headerlink" title="Another thread of research has also explored the distillation of knowledge from LLMs to smaller models."></a>Another thread of research has also explored the distillation of knowledge from LLMs to smaller models.</h4><h4 id="These-papers-primarily-leverage-LLMs-for-generating-reasoning-steps-segmenting-problems-or-creating-customized-exercises-to-train-smaller-models"><a href="#These-papers-primarily-leverage-LLMs-for-generating-reasoning-steps-segmenting-problems-or-creating-customized-exercises-to-train-smaller-models" class="headerlink" title="These papers primarily leverage LLMs for generating reasoning steps, segmenting problems, or creating customized exercises to train smaller models."></a>These papers primarily leverage LLMs for generating reasoning steps, segmenting problems, or creating customized exercises to train smaller models.</h4><h4 id="Our-research-however-investigates-a-different-approach-using-publicly-accessible-datasets-in-an-efficient-way-to-train-effective-smaller-LMs-for-mathematical-problem-solving"><a href="#Our-research-however-investigates-a-different-approach-using-publicly-accessible-datasets-in-an-efficient-way-to-train-effective-smaller-LMs-for-mathematical-problem-solving" class="headerlink" title="Our research, however, investigates a different approach: using publicly accessible datasets in an efficient way to train effective, smaller LMs for mathematical problem solving."></a>Our research, however, investigates a different approach: using publicly accessible datasets in an efficient way to train effective, smaller LMs for mathematical problem solving.</h4><ul>
+<li><h4 id="Large-Language-Models-Are-Reasoning-Teachers"><a href="#Large-Language-Models-Are-Reasoning-Teachers" class="headerlink" title="Large Language Models Are Reasoning Teachers"></a>Large Language Models Are Reasoning Teachers</h4><ul>
+<li>大模型通过Zero-shot-cot构造数据 finetune小模型</li>
+<li>输入输出不同  输入: question+rationales   输出: answer</li>
+</ul>
+</li>
+<li><h4 id="Teaching-Small-Language-Models-to-Reason"><a href="#Teaching-Small-Language-Models-to-Reason" class="headerlink" title="Teaching Small Language Models to Reason"></a>Teaching Small Language Models to Reason</h4><ul>
+<li>方法没有变化 增加了教师模型和数据集</li>
+<li>输入输出不同  输入: question  输出: rationales + answer</li>
+</ul>
+</li>
+<li><h4 id="LARGE-LANGUAGE-MODELS-CAN-SELF-IMPROVE"><a href="#LARGE-LANGUAGE-MODELS-CAN-SELF-IMPROVE" class="headerlink" title="LARGE LANGUAGE MODELS CAN SELF-IMPROVE"></a>LARGE LANGUAGE MODELS CAN SELF-IMPROVE</h4><ul>
+<li>大模型自己生成COT数据 finetune自己  </li>
+<li>COT生成加入了SELF-CONSITENCY</li>
+</ul>
+</li>
+<li><h4 id="Specializing-Smaller-Language-Models-towards-Multi-Step-Reasoning"><a href="#Specializing-Smaller-Language-Models-towards-Multi-Step-Reasoning" class="headerlink" title="Specializing Smaller Language Models towards Multi-Step Reasoning"></a>Specializing Smaller Language Models towards Multi-Step Reasoning</h4><ul>
+<li>再看看</li>
+</ul>
+</li>
+<li><h4 id="MINT-BOOSTING-GENERALIZATION-IN-MATHEMATICAL-REASONING-VIA-MULTI-VIEW-FINE-TUNING"><a href="#MINT-BOOSTING-GENERALIZATION-IN-MATHEMATICAL-REASONING-VIA-MULTI-VIEW-FINE-TUNING" class="headerlink" title="MINT : BOOSTING GENERALIZATION IN MATHEMATICAL REASONING VIA MULTI-VIEW FINE-TUNING"></a>MINT : BOOSTING GENERALIZATION IN MATHEMATICAL REASONING VIA MULTI-VIEW FINE-TUNING</h4><ul>
+<li>讲到了training方法上,但本质上还是对数据构造做变化，训练方式没变化</li>
+</ul>
+</li>
+<li><h4 id="Symbolic-Chain-of-Thought-Distillation-Small-Models-Can-Also-“Think”-Step-by-Step"><a href="#Symbolic-Chain-of-Thought-Distillation-Small-Models-Can-Also-“Think”-Step-by-Step" class="headerlink" title="Symbolic Chain-of-Thought Distillation: Small Models Can Also “Think” Step-by-Step"></a>Symbolic Chain-of-Thought Distillation: Small Models Can Also “Think” Step-by-Step</h4><ul>
+<li>不是从像logits这样的软表示中蒸馏，而是利用大型语言模型作为训练数据生成器</li>
+<li>通过从大型语言模型中采样出思维链理由，训练小型语言模型进行链式思考，从而显著提高了小型语言模型在常识QA任务上的表现。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2023/10/09/small-models-reasoning/small-models-reasoning/image-20231009152445698.png" alt="image-20231009152445698"></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>e-SNLI</th>
+<th>ANLI</th>
+<th>CQA</th>
+<th>SVAMP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>STANDARD FINETUNING</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>DISTILLING STEP-BY-STEP</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><img src="/2023/10/09/small-models-reasoning/small-models-reasoning/image-20231009184725564.png" alt="image-20231009184725564"></p>
+<h6 id="Autoregressive-Blank-Infilling"><a href="#Autoregressive-Blank-Infilling" class="headerlink" title="Autoregressive Blank Infilling"></a>Autoregressive Blank Infilling<img src="/2023/10/09/small-models-reasoning/small-models-reasoning/image-20231009183912019.png" alt="image-20231009183912019"></h6>
       
     </div>
 
@@ -298,7 +372,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/11/24/GLAT/">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2023/09/06/knn-disco/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -312,7 +386,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/11/24/GLAT/" class="post-title-link" itemprop="url">GLAT</a>
+            <a href="/2023/09/06/knn-disco/" class="post-title-link" itemprop="url">knn_disco</a>
         </h2>
 
         <div class="post-meta">
@@ -322,14 +396,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-11-24 18:29:29" itemprop="dateCreated datePublished" datetime="2022-11-24T18:29:29+08:00">2022-11-24</time>
+              <time title="创建时间：2023-09-06 16:39:13" itemprop="dateCreated datePublished" datetime="2023-09-06T16:39:13+08:00">2023-09-06</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-08 21:43:51" itemprop="dateModified" datetime="2022-12-08T21:43:51+08:00">2022-12-08</time>
+                <time title="修改时间：2023-10-17 21:53:08" itemprop="dateModified" datetime="2023-10-17T21:53:08+08:00">2023-10-17</time>
               </span>
 
           
@@ -343,15 +417,635 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>Glancing Transformer</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/11/24/GLAT/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>it</th>
+<th>wmt16de-en</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>wmt19.de-en.ffn8192</td>
+<td>38.35</td>
+<td>37.47</td>
+</tr>
+<tr>
+<td>wmt19.de-en.ffn8192 + knn（in-domain）</td>
+<td>45.74</td>
+<td>37.77 (lam&#x3D;0.1)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>model</strong> :                   <strong>disco_trained</strong></p>
+<p><strong>datastore:</strong>    </p>
+<p>​				<strong>model    :   disco_trained</strong> </p>
+<p>​				<strong>method :  van_knn</strong></p>
+<p><strong>dataset :                    wmt16.de-en</strong>  </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>wmt16 en-de</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>disco</td>
+<td>26.75</td>
+<td></td>
+</tr>
+<tr>
+<td>disco + van_knn   0.7</td>
+<td>25.56</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>disco_big</td>
+<td>26.85</td>
+<td></td>
+</tr>
+<tr>
+<td>disco_big + van_knn</td>
+<td>26.06</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>model</strong> :                   <strong>disco_trained</strong></p>
+<p><strong>datastore:</strong>    </p>
+<p>​				<strong>model    :   disco_trained</strong> </p>
+<p>​				<strong>method :  van_knn</strong></p>
+<p><strong>dataset :                    wmt16.de-en</strong>  </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>wmt16 en-de</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>disco</td>
+<td>26.75</td>
+<td></td>
+</tr>
+<tr>
+<td>disco + van_knn   0.7</td>
+<td>25.56</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>disco_big</td>
+<td>26.85</td>
+<td></td>
+</tr>
+<tr>
+<td>disco_big + van_knn</td>
+<td>26.06</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>**model :                     disco_big_trained **</p>
+<p><strong>datastore:</strong>    </p>
+<p>​				<strong>model    :   transformer_wmt16en_de_big_downloaded</strong>    </p>
+<p>​		   	<strong>method :   van_knn</strong> </p>
+<p><strong>dataset :                    wmt16.de-en</strong>  </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>wmt16 en-de</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>disco_big</td>
+<td>26.85</td>
+<td></td>
+</tr>
+<tr>
+<td>disco_big +  ar_van_knn (0.7,10)</td>
+<td>25.07</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>model :                     transformer_wmt16en_de_big_downloaded</strong>    </p>
+<p><strong>datastore:</strong>    </p>
+<p>​				<strong>model    :   transformer_wmt16en_de_big_downloaded</strong> </p>
+<p>​				<strong>method :  van_knn</strong></p>
+<p><strong>dataset :                    wmt16.de-en</strong>   </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>wmt16 en-de</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>transformer_downloaded</td>
+<td>29.28</td>
+</tr>
+<tr>
+<td>transformer_downloaded + van_knn</td>
+<td>23.73</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>model :                     wmt19.de-en.ffn8192</strong>    </p>
+<p><strong>datastore:</strong>    </p>
+<p>​				<strong>model    :   wmt19.de-en.ffn8192</strong></p>
+<p>​				<strong>method :  van_knn</strong></p>
+<p><strong>dataset :                    wmt16.de-en</strong>     					  </p>
+<table>
+<thead>
+<tr>
+<th>lam \temp</th>
+<th>10</th>
+<th>20</th>
+<th>30</th>
+<th>40</th>
+<th>50</th>
+<th>60</th>
+<th>70</th>
+<th>80</th>
+<th>90</th>
+<th>100</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>0</strong></td>
+<td>37.47</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>0.1</strong></td>
+<td><strong>37.77</strong></td>
+<td>37.76</td>
+<td>37.72</td>
+<td>37.73</td>
+<td>37.73</td>
+<td>37.74</td>
+<td>37.74</td>
+<td>37.74</td>
+<td>37.74</td>
+<td>37.73</td>
+</tr>
+<tr>
+<td><strong>0.2</strong></td>
+<td>37.63</td>
+<td>37.69</td>
+<td>37.63</td>
+<td>37.60</td>
+<td>37.63</td>
+<td>37.62</td>
+<td>37.62</td>
+<td>37.63</td>
+<td>37.64</td>
+<td>37.61</td>
+</tr>
+<tr>
+<td><strong>0.3</strong></td>
+<td>37.49</td>
+<td>37.44</td>
+<td>37.49</td>
+<td>37.47</td>
+<td>37.47</td>
+<td>37.50</td>
+<td>37.50</td>
+<td>37.50</td>
+<td>37.52</td>
+<td>37.52</td>
+</tr>
+<tr>
+<td><strong>0.4</strong></td>
+<td>36.95</td>
+<td>37.08</td>
+<td>37.13</td>
+<td>37.06</td>
+<td>37.05</td>
+<td>37.03</td>
+<td>37.05</td>
+<td>37.04</td>
+<td>37.05</td>
+<td>37.07</td>
+</tr>
+<tr>
+<td><strong>0.5</strong></td>
+<td>35.61</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>0.6</strong></td>
+<td>34.41</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>0.7</strong></td>
+<td>33.08</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>0.8</strong></td>
+<td>31.36</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>0.9</strong></td>
+<td>29.92</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>de2en</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>en2de</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>nmt-model</td>
+<td>knn-datastore-model</td>
+<td>it</td>
+<td>law</td>
+<td>medical</td>
+<td>koran</td>
+<td></td>
+<td>it</td>
+<td>law</td>
+<td>medical</td>
+<td>koran</td>
+</tr>
+<tr>
+<td>transformer_8192_dl</td>
+<td>\</td>
+<td>38.35</td>
+<td>45.48</td>
+<td>40.06</td>
+<td>16.26</td>
+<td></td>
+<td>29.74</td>
+<td>40.85</td>
+<td>35.84</td>
+<td>13.97</td>
+</tr>
+<tr>
+<td>transformer_8192_dl</td>
+<td>transformer_8192_dl</td>
+<td>45.58</td>
+<td>61.15</td>
+<td>54.26</td>
+<td>19.99</td>
+<td></td>
+<td>37.23</td>
+<td>55.48</td>
+<td>50.43</td>
+<td>25.34</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformer_8192_trained</td>
+<td></td>
+<td>29.57</td>
+<td>39.67</td>
+<td>33.76</td>
+<td>11.08</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformer_8192_trained</td>
+<td>transformer_8192_trained</td>
+<td>33.50</td>
+<td>60.36</td>
+<td>51.83</td>
+<td>15.49</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformer_8192_trained</td>
+<td>transformer_8192_dl</td>
+<td>x ???</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>transformer_big</td>
+<td>\</td>
+<td>29.20</td>
+<td>39.95</td>
+<td>33.58</td>
+<td>10.80</td>
+<td></td>
+<td>21.74</td>
+<td>35.88</td>
+<td>30.99</td>
+<td>10.37</td>
+</tr>
+<tr>
+<td>transformer_big</td>
+<td>transformer_big</td>
+<td>34.39</td>
+<td>60.20</td>
+<td>51.65</td>
+<td>15.13</td>
+<td></td>
+<td>27.01</td>
+<td>54.03</td>
+<td>48.59</td>
+<td>19.20</td>
+</tr>
+<tr>
+<td>transformer_big</td>
+<td>transformer_8192_dl</td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmlm_big</td>
+<td>\</td>
+<td>28.96</td>
+<td>35.51</td>
+<td>31.81</td>
+<td>10.05</td>
+<td></td>
+<td>20.44</td>
+<td>32.49</td>
+<td>29.85</td>
+<td>9.40</td>
+</tr>
+<tr>
+<td>cmlm_big</td>
+<td>cmlm_big_one_mask_all</td>
+<td>32.99</td>
+<td>39.10</td>
+<td>36.10</td>
+<td>12.35</td>
+<td></td>
+<td>21.73</td>
+<td>35.19</td>
+<td>32.59</td>
+<td></td>
+</tr>
+<tr>
+<td>cmlm_big</td>
+<td>cmlm_big_random_mask_all</td>
+<td>33.83</td>
+<td></td>
+<td>37.17</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmlm_big</td>
+<td>cmlm_big_full_mask_all</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmlm_big</td>
+<td>cmlm_big_full_mask_first</td>
+<td>30.12</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cmlm_big</td>
+<td>cmlm_big_full_mask_with_iteration</td>
+<td>34.11</td>
+<td></td>
+<td>38.37</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>disco</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>AR创建数据库  :  训练  teacher forcing –&gt; 每个位置 y_i 都能获得 ( X, y_&lt;i )的表示   </p>
+<p>​			                         (key,value) &#x3D; ( f( X, y_&lt;i )  , yi  )</p>
+<p>cmlm :   只有 ymask ( X , Yobs)的表示  有多个mask位置，影响表示的准确性</p>
+<p>​				在attention加个mask，只mask自己的位置 —–&gt;    ( X , y_ ≠i )                  (key,value) &#x3D; ( f( X, y_≠i )  , yi  )     &#x3D;&#x3D;&gt; one-mask</p>
+<p>​				 和 cmlm decoding的过程不一致，decoding时其他位置不是groundtruth</p>
+<p>​				 确保自己位置mask的同时加随机噪声？  &#x2F;   Disco  每个位置有不同的Y_obs ，输出每个位置上的结果</p>
+<p>​			其实 (key , value) 这个key不一定要”好” ，而应该是和inference时得到的 x 匹配，这样才能 通过 x - key 关系检索到正确的value  &#x3D;&#x3D;》 fulcl mask</p>
+<p>​			只在第一轮用?  &#x3D;&#x3D;&gt; full mask first</p>
+<p>​			</p>
+<p>​		ar (transformer_big) 和 nar (cmlm_big) 本身差距不大，为什么加了knn差距这么大 &#x3D;&#x3D;》</p>
+<p>​       还是数据库构造有问题  构造和inference过程不一致 &#x3D;&#x3D;&gt;  使用 iteration 中的表示存  &#x3D;&#x3D;》 full_mask_with_iteration</p>
+<h6 id="Machine-translation-models-struggle-when-translating-out-of-domain-text-which-makes-domain-adaptation-a-topic-of-critical-importance"><a href="#Machine-translation-models-struggle-when-translating-out-of-domain-text-which-makes-domain-adaptation-a-topic-of-critical-importance" class="headerlink" title="Machine translation models struggle when translating out-of-domain text, which makes domain adaptation a topic of critical importance."></a>Machine translation models struggle when translating out-of-domain text, which makes domain adaptation a topic of critical importance.</h6><h6 id="kNN-MT-is-thus-two-orders-slower-than-vanilla-MT-models-making-it-hard-to-be-applied-to-real-world-applications-especially-online-services"><a href="#kNN-MT-is-thus-two-orders-slower-than-vanilla-MT-models-making-it-hard-to-be-applied-to-real-world-applications-especially-online-services" class="headerlink" title="kNN-MT is thus two-orders slower than vanilla MT models, making it hard to be applied to real-world applications, especially online services"></a>kNN-MT is thus two-orders slower than vanilla MT models, making it hard to be applied to real-world applications, especially online services</h6><ol>
+<li>fully_mask_with_iter 剔除掉 iter 0 的 k-v 对，验证较好的key-val对是否带来更好收益；</li>
+<li>cmlmc 所有iter作为key-val结果；–&gt; 存iter&#x3D;0或1下的key-val对，测iter &#x3D;0时候结果</li>
+</ol>
+
       
     </div>
 
@@ -370,7 +1064,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/11/23/Mask-Predict-NAT/">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2023/09/04/fleeting-moments-of-stillness/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -384,7 +1078,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/11/23/Mask-Predict-NAT/" class="post-title-link" itemprop="url">Mask-Predict-NAT</a>
+            <a href="/2023/09/04/fleeting-moments-of-stillness/" class="post-title-link" itemprop="url">fleeting-moments-of-stillness</a>
         </h2>
 
         <div class="post-meta">
@@ -394,14 +1088,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-11-23 21:18:35" itemprop="dateCreated datePublished" datetime="2022-11-23T21:18:35+08:00">2022-11-23</time>
+              <time title="创建时间：2023-09-04 21:14:35" itemprop="dateCreated datePublished" datetime="2023-09-04T21:14:35+08:00">2023-09-04</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-08 21:45:39" itemprop="dateModified" datetime="2022-12-08T21:45:39+08:00">2022-12-08</time>
+                <time title="修改时间：2023-10-10 16:51:09" itemprop="dateModified" datetime="2023-10-10T16:51:09+08:00">2023-10-10</time>
               </span>
 
           
@@ -415,15 +1109,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>Mask-Predict_NAT</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/11/23/Mask-Predict-NAT/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <ul>
+<li>CoT  Trainging step by step<ul>
+<li>“Let’s Verify Step by Step” OpenAI</li>
+<li>“Distilling Step-by-Step! Outperforming Larger Language Models with Less Training Data and Smaller Model Sizes”</li>
+</ul>
+</li>
+</ul>
+<p>​		监督中间过程</p>
+<ul>
+<li>KNN  NAR decoding<ul>
+<li>并行的KNN-MT</li>
+<li>Integrating Translation Memories into Non-Autoregressive Machine Translation</li>
+<li>Incorporating BERT into Parallel Sequence Decoding with Adapters</li>
+<li>Incorporating a Local Translation Mechanism into Non-autoregressive Translation</li>
+</ul>
+</li>
+</ul>
+<p>improving Non-Autoregressive Neural Machine Translation via Modeling Localness</p>
+<ul>
+<li><p>NAR decoding +KNN</p>
+<p>在decoding阶段加入knn ，开销太大 结果不行</p>
+<p>都是在 iteration decoding 的时候引入外部信息，不用knn，用 pretrained-bert ??</p>
+</li>
+<li><p>self-consistency 只是对最终结果进行多数投票</p>
+</li>
+</ul>
+<p>  对于COT，能不能在decoding对每个中间步骤进行多数投票        self-consistency beam-search ?</p>
+<ul>
+<li>cot数据的生成大多使用Zero-shot-CoT<ul>
+<li>正确率不能保证</li>
+<li>中间过程 rationale不一定正确</li>
+</ul>
+</li>
+</ul>
+
       
     </div>
 
@@ -442,7 +1162,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2023/08/24/EMNLP%20Rebuttal/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -456,7 +1176,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/" class="post-title-link" itemprop="url">Deterministic_Non-Autoregressive_Neural_Sequence_Modeling</a>
+            <a href="/2023/08/24/EMNLP%20Rebuttal/" class="post-title-link" itemprop="url">未命名</a>
         </h2>
 
         <div class="post-meta">
@@ -466,14 +1186,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-11-22 19:45:54" itemprop="dateCreated datePublished" datetime="2022-11-22T19:45:54+08:00">2022-11-22</time>
+              <time title="创建时间：2023-08-24 18:57:37" itemprop="dateCreated datePublished" datetime="2023-08-24T18:57:37+08:00">2023-08-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-08 21:48:29" itemprop="dateModified" datetime="2022-12-08T21:48:29+08:00">2022-12-08</time>
+                <time title="修改时间：2023-08-29 19:45:31" itemprop="dateModified" datetime="2023-08-29T19:45:31+08:00">2023-08-29</time>
               </span>
 
           
@@ -487,15 +1207,125 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>迭代NAT</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/11/22/Deterministic-Non-Autoregressive-Neural-Sequence-Modeling/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <h1 id="EMNLP-Rebuttal"><a href="#EMNLP-Rebuttal" class="headerlink" title="EMNLP Rebuttal"></a>EMNLP Rebuttal</h1><h2 id="Reviewer-ZqC6"><a href="#Reviewer-ZqC6" class="headerlink" title="Reviewer ZqC6"></a>Reviewer ZqC6</h2><h4 id="Reasons-To-Reject"><a href="#Reasons-To-Reject" class="headerlink" title="Reasons To Reject:"></a><strong>Reasons To Reject:</strong></h4><ul>
+<li><p><em><strong>The authors claim to evaluate their method on various open-source models but do not explain which models were evaluated, only the small alpaca models. It seems odd not to compare with available larger open-source language models such as OPT and BLOOM. The authors do not report on budget and CO2 emissions, which is an important aspect of research on LLMs</strong></em></p>
+<ul>
+<li><p>We appreciate the feedback regarding our evaluation of open-source models in our paper. We apologize for the confusion caused by our statement about evaluating on various open-source models, and a more accurate statement would be “evaluating on various models”. <strong>While our main experiments were conducted on the 175B GPT-3.5 model,</strong> <strong>we believe it is valuable to further validate our approach on smaller-scale models, so we chose the small alpaca models. Regarding the OPT and BLOOM models, we have conducted additional experiments on GSM8K dataset and the results are as follows:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Models</th>
+<th>BLOOM-</th>
+<th>OPT-</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Manual-CoT</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IE-CoT</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>We also understand the importance of considering budget and CO2 emissions in language model research. Unfortunately, <strong>due to some policy restrictions</strong>, we cannot provide a specific breakdown of our budget. However, we can estimate the cost based on the charging guidelines of the OpenAI API. Evaluating on a 100-instance test set costs approximately <strong>（0.3-0.5）</strong> US dollars for greedy decoding (1 output chain). It’s worth noting that the cost may vary depending on the number of tokens and the specific model used. In our analysis experiments, we primarily utilized the GPT-3.5-Turbo model, as it offers a more cost-effective solution compared to text-davinci-002. Regarding CO2 emissions, since our experiments primarily focus on the inference stage of LLMs and the GPT3.5 models are closed-source, we lack specific information about the emissions. However, our IE-SC can effectively decrease the computational cost for self-consistency settings, as mentioned in our paper.</p>
+</li>
+</ul>
+</li>
+<li><p><em><strong>It is important to notice that language&#x2F;discourse-based reasoning, different from reasoning in general, may be affected by the linguistic characteristics of the language used in the work. While the work solely relies on reasoning in English, the authors fail to acknowledge or consider how syntactic, semantic and pragmatic aspects of the language may have impacted their work and whether their results may generalise to other languages.</strong></em></p>
+<ul>
+<li>Thank you for bringing up these important points. It is indeed crucial the impact of linguistic characteristics on language&#x2F;discourse-based reasoning. We acknowledge that our work have not explicitly addressed how syntactic, semantic, and pragmatic aspects of the language may have influenced our findings. The focus of this paper, however, is on how to select or construct better CoT examples through simple analysis of the data in the training set, rather than how linguistic characteristics would affect the performance of large models on reasoning tasks. Our findings can serve as a starting point for researchers interested in exploring the impact of language-specific features on reasoning tasks. In addition, we have conducted some additional experiments in other language, the results are as follows:</li>
+</ul>
+</li>
+</ul>
+<p>​			( 贴 实 验 ) 其他语言</p>
+<h4 id="Typos-Grammar-Style-And-Presentation-Improvements"><a href="#Typos-Grammar-Style-And-Presentation-Improvements" class="headerlink" title="Typos Grammar Style And Presentation Improvements:"></a><strong>Typos Grammar Style And Presentation Improvements:</strong></h4><ul>
+<li><del><em><strong>pg 2 line 109: we extend apply -&gt; we extend? pg 2 line 116: Cot generation -&gt; CoT generation pg 7 Table 2: Rondom -&gt; Random</strong></em></del><ul>
+<li>We have corrected the other presentation&#x2F;typos&#x2F;grammatical errors listed in your comments. Thank you again for your patient and valuable proofreading.</li>
+</ul>
+</li>
+</ul>
+<h4 id="Questions-For-The-Authors"><a href="#Questions-For-The-Authors" class="headerlink" title="Questions For The Authors:"></a><strong>Questions For The Authors:</strong></h4><ul>
+<li><p><em><strong>On what task has the evaluation on open-source models conducted, and why is gpt-3.5-Turbo listed as open-source? On which open-source models do the authors evaluate their framework?</strong></em></p>
+<ul>
+<li><p>The evaluation was conducted on the GSM8K benchmark in the “Robustness of INFORM” section. Regarding the mention of GPT-3.5 Turbo as open-source, we apologize for any confusion caused. Our intention was to highlight that we evaluated our framework on various models, including both open-source and close-source ones. We understand that this statement may have been misleading, and we apologize for the lack of clarity in our original paper, we will make the necessary corrections in the later version of the paper.</p>
+<p>We have evaluated our framework on the alpaca 7b and alpaca-13b models. To further prove the robustness of INFORM, we have conducted additional experiments on opt and bloom models and the results are as follows:</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>​			( 贴 实 验 ，可以和q1 合并) </p>
+<h2 id="Reviewer-tD1V"><a href="#Reviewer-tD1V" class="headerlink" title="Reviewer tD1V"></a>Reviewer tD1V</h2><p><strong>Questions For The Authors:</strong></p>
+<ul>
+<li><p><del>*<strong>In the subsection Robustness of INFORM, which benchmark do you refer to?</strong></del>*</p>
+<ul>
+<li>The evaluation was conducted on the GSM8K benchmark in the “Robustness of INFORM” section. We understand that this was not explicitly stated, and we apologize for any confusion caused.</li>
+</ul>
+</li>
+<li><p><em><strong>How do you derive the values for H_min, H_max, N_min, and N_max?</strong></em></p>
+<ul>
+<li><p>As mentioned after equation 3 in our paper, H_min and H_max represent the minimum and maximum IE scores of the candidates, respectively. These values are calculated by equation 1 on different datasets. Typically, we have observed the values are 3 and 8.</p>
+<p>Regarding N_min and N_max, they indicate the minimum and maximum numbers of samplings for self-consistency. In our experiment, we followed the approach proposed by Wang et al. [1] and selected 5 as the value for N_min. And the reason we selected 20 for N_max was based on our previous experiments, where we found that increasing the number of samplings beyond 20 did not yield significant further improvements in self-consistency. We believe that these values strike a balance between computational efficiency and achieving desirable results. We appreciate the reviewer’s inquiry, and we hope this explanation clarifies the rationale behind our choices.</p>
+</li>
+</ul>
+</li>
+<li><p><em><strong>Could you kindly specify the whole process of how you apply Equation 1 in the process of IE Ranking?</strong></em></p>
+</li>
+</ul>
+<p>​			<strong>unigram</strong></p>
+<p>[1] Wang X, Wei J, Schuurmans D, et al. Self-Consistency Improves Chain of Thought Reasoning in Language Models[C]&#x2F;&#x2F;The Eleventh International Conference on Learning Representations. 2023.</p>
+<h2 id="Reviewer-ZjNo"><a href="#Reviewer-ZjNo" class="headerlink" title="Reviewer ZjNo"></a>Reviewer ZjNo</h2><p><strong>Questions For The Authors:</strong></p>
+<ul>
+<li><p><em><strong>Can you confirm that the entropy calculations are done on the unigrams? It’s not really clear from the paper, but this is what I inferred from the code. Why not use the model logits for text-davinci-003 at least?</strong></em></p>
+<ul>
+<li><p><del>Your understanding is correct. Actually, we have Since our experiments primarily focused on reasoning datasets containing numerous Arabic numerals and mathematical symbols, we observed that calculating entropy using unigrams better reflected the information content in such sentences in early experiments. As for why we did not use model logits, our intention was to perform simple manipulations and select the best examples for our experiments. Calculating model logits for all the questions in the training dataset can be computationally expensive and may not be suitable for many scenarios. Additionally, it’s worth noting that we extend our method to context generation and final result selection stages. Therefore, we opted for a more efficient approach to ensure feasibility within our overall framework, using unigrams for entropy calculations could be a deliberate choice due to certain trade-offs. However, we acknowledge that there may be other potentially superior methods for calculating information entropy.</del></p>
+</li>
+<li><p><strong>Your understanding is correct. Actually, we have tried several methods to compute information entropy in our early experiments, including using model logits. However, we ultimately chose to use the unigram approach for the following reasons:</strong></p>
+<ol>
+<li><p><strong>Our experiments primarily focused on reasoning datasets containing numerous Arabic numerals and mathematical symbols. Logits from models that were not specifically trained on such data may not accurately capture the desired information. On the other hand, using unigrams can brtter reflect the information since it is more directly based on the frequency distribution of individual words.</strong></p>
+</li>
+<li><p><strong>Our goal is to perform simple operations on the query in the training set and select the best examples. These queries are generally not too long, limiting the contextual information provided and making it challenging for the model to accurately understand the meaning and context of the sentence.</strong></p>
+</li>
+<li><p><strong>It’s worth noting that we extend our method to context generation and final result selection stages. Therefore, we opted for a more efficient approach to ensure feasibility within our overall framework. Using unigrams for entropy calculations could be a deliberate choice due to certain trade-offs.</strong></p>
+</li>
+</ol>
+<p>   <strong>Based on the aforementioned three points, we have have chosen the unigram approach for computing information entropy. However, we acknowledge that model logits can yield comparable results in certain scenarios and there may be other potentially superior methods for calculating information entropy.</strong></p>
+</li>
+<li><p><del><em><strong>How are the Manual results obtained for datasets without CoT examples included?</strong></em></del></p>
+</li>
+<li><p>The manual results for datasets without CoT examples included were obtained by randomly selecting examples from the training set and manually composing chains of thought for them as we demonstrated in the Baseline part in section 4.1 Experiment settings. This process was followed based on the approach described by Wei et al. [1]. There is an example in MultiA dataset:</p>
+<blockquote>
+<p>Question: Tom bought 12 boxes of chocolate candy and gave 7 to his little brother. If each box has 6 pieces inside it, how many pieces did Tom still have?<br>Answer: Let’s think step by step.<br>Tom had 12 boxes of candy originally. Then he gave 7 to his little brother, so he had 12 - 7 &#x3D; 5 boxes of candy left. Each box has 6 pieces inside it, so Tom still had 5 x 6 &#x3D; 30 pieces.</p>
+<p>Therefore, the answer (arabic numerals) is 30.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><em><strong>The paper is written as though CoT was central, but actually four of seven the datasets have CoT strings included, and so all that is happening is that demonstrations are being selected and ranked. What happens if the include CoT strings are not used?</strong></em></p>
+<ul>
+<li><p>As we mentioned in the section3.3, when the data lacks annotated CoT,  we utilize our selection strategy to acquire a specific set of queries first. Following the approach outlined by Kojima et al. [2], rationale steps are generated through zero-shot CoT. We further integrated our method into the process of CoT generation. The effectiveness was shown in ‘’Effects of IE in CoT generation” part in section5.</p>
+<p><strong>（补个无CoT 实验的结果，直接找）</strong></p>
+</li>
+</ul>
+</li>
+<li><p><em><strong>Are the results all based on single runs? If so, what is the observed variation across runs and across choices for the many hyperparameters that are in play here? If these hyperparameters were tuned informally based on pilot experiments, what examples were used for that and how extensively was this done across all the approaches?</strong></em></p>
+<ul>
+<li><p>Yes, most of our experiments were conducted based on single runs. In the absence of self-consistency setting, we set the temperature of models to 0, and there was no additional randomness in our example selection stage, which means that for a specific dataset, our inputs remained the same for each run, resulting in deterministic outcomes. However, in the self-consistency setting, we still relied on single runs as we believe that the self-consistency setup itself partially eliminates randomness and also helps in computational efficiency.</p>
+<p>Regarding hyperparameters, we mostly followed the experimental settings of Wei et al.[1] and Wang et al.[3], such as the number of examples used for each dataset, temperature settings, and the minimum sampling count for self-consistency. As for the selection of H_min, H_max, and N_max, we have provided some insights in our response to reviewer tD1V. These parameters have been explored in their paper to understand their impact on the results. Additionally, there are other hyperparameters such as the number of CoT generations and the threshold for similarity pruning, which were set empirically. However, the focus of this paper is not on tuning these hyperparameters in every stage for their subtle effects on the results, but rather on exploring the contributions of each component. Perhaps in future work, more in-depth research can be conducted on these hyperparameters.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>[1] Wei J, Wang X, Schuurmans D, et al. Chain-of-thought prompting elicits reasoning in large language models[J]. Advances in Neural Information Processing Systems, 2022, 35: 24824-24837.</p>
+<p>[2] Kojima T, Gu S S, Reid M, et al. Large language models are zero-shot reasoners[J]. Advances in neural information processing systems, 2022, 35: 22199-22213.</p>
+<p>[3] Wang X, Wei J, Schuurmans D, et al. Self-Consistency Improves Chain of Thought Reasoning in Language Models[C]&#x2F;&#x2F;The Eleventh International Conference on Learning Representations. 2023.</p>
+<h4 id="开头-x2F-结尾"><a href="#开头-x2F-结尾" class="headerlink" title="开头&#x2F;结尾"></a>开头&#x2F;结尾</h4><p>We thank the reviewer for taking the time to evaluate our work and provide valuable feedback. Here, we address the main concerns that were brought up.</p>
+<p>We hope we have addresses all the questions, and would appreciate if the reviewer would re-consider the position on our submission. Please let us know if there are any additional concerns.</p>
+<p>再去别人的回答找找</p>
+<p><em><strong>We hope we have addressed all the questions and thank you again for your valuable feedback. Please let us know if there are any additional concerns</strong></em></p>
+
       
     </div>
 
@@ -514,7 +1344,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/11/20/NON-AUTOREGRESSIVE-NEURAL-MACHINE-TRANSLATION/">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2023/08/23/INFORM-rebuttal/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -528,79 +1358,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/11/20/NON-AUTOREGRESSIVE-NEURAL-MACHINE-TRANSLATION/" class="post-title-link" itemprop="url">NON-AUTOREGRESSIVE_NEURAL_MACHINE_TRANSLATION</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-11-20 18:54:00" itemprop="dateCreated datePublished" datetime="2022-11-20T18:54:00+08:00">2022-11-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-08 21:46:46" itemprop="dateModified" datetime="2022-12-08T21:46:46+08:00">2022-12-08</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>NAT with feritility</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/11/20/NON-AUTOREGRESSIVE-NEURAL-MACHINE-TRANSLATION/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/11/04/maxout%E5%8D%95%E5%85%83/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Moriarty">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Moriarty' blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/11/04/maxout%E5%8D%95%E5%85%83/" class="post-title-link" itemprop="url">maxout单元</a>
+            <a href="/2023/08/23/INFORM-rebuttal/" class="post-title-link" itemprop="url">INFORM-rebuttal</a>
         </h2>
 
         <div class="post-meta">
@@ -611,7 +1369,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-11-04 21:18:51 / 修改时间：21:46:03" itemprop="dateCreated datePublished" datetime="2022-11-04T21:18:51+08:00">2022-11-04</time>
+              <time title="创建时间：2023-08-23 17:06:09 / 修改时间：17:32:14" itemprop="dateCreated datePublished" datetime="2023-08-23T17:06:09+08:00">2023-08-23</time>
             </span>
 
           
@@ -625,15 +1383,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>maxout单元</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/11/04/maxout%E5%8D%95%E5%85%83/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+<p>We thank the reviewer for taking the time to evaluate our work and provide valuable feedback. Here, we address the main concerns that were brought up.</p>
+<p>Your understanding is correct. We replace ‘’vocabulary’’ with ‘’tokens’’ in the revised version. Since the target-side sentences between KD and Raw data are different from each other, we compute the AoLC on the test set for a fair comparison.</p>
+<p>We will use additional columns to display AoLC scores on low-frequency words in the revised version. The overall AoLC scores along with the BLEU scores can demonstrate the effectiveness of our approach on improving the final performance of NAT models.</p>
+<p>We have corrected the other Presentation&#x2F;Typos&#x2F;Grammatical Errors listed in your comments. Thank you again for your patient and valuable proofreading.</p>
+<p>We hope we have addresses all the questions, and would appreciate if the reviewer would re-consider the position on our submission. As stated above, we believe that CMLMC represents a solid step towards learning robust NAR models on raw data. Please let us know if there are any additional concerns.</p>
+<p><strong>A</strong>: Thank you for your suggestion. To make it clearer, we have added a section in Appendix C.2 to introduce these tasks. Since MuJoCo [3] is a well-known benchmark environment in the RL community, we put the descriptions for these tasks in Appendix C.2. More details can be also found in [3].</p>
+<p><strong>A</strong>: Thank you for your suggestions. We have already cited the papers you mentioned in the main paper (Section2) and clarified the connection and the difference between our method and these methods in detailed related work section in Appendix A (we put them in the appendix due to space limitations).</p>
+<blockquote>
+<p><strong>For the concerns about the number of experimental runs.</strong></p>
+</blockquote>
+<p><strong>A</strong>: Please note that our implementation is mainly based on two well-known baseline works MBPO [1] and MAAC [2], and we use the same number of trials, 5 runs as in [1][2][3]. For your concern, we have added 5 more seeds for our method in Figure 1 and use a t-test to test the hypothesis of whether the mean performance of our method is significantly better than the baseline method (MAAC) [2]. The results of the t-test show that the performance of our method is indeed significantly better than MAAC (p-value &lt; 0.05 is a commonly used threshold to show the significance):</p>
+<p>We use single-round augmentation in most of the experiments unless it is explicitly described that multi-round augmentation is used. To be more explicit, we add the subscript in the revised version to reflect the number of augmentation turns.</p>
+<p>Although we only report the results on the test sets, all our checkpoint selection and hyperparameter selection are based on the performance of the validation set. In addition, we add the training curve in the Appendix of the revised version to better demonstrate the effectiveness of our method.</p>
+<p>We thank all reviewers for your careful review and constructive comments and suggestions. We also thank all reviewers for your recognition of the idea, insights, and presentation of our work. We summarize our main revision of the paper below.</p>
+<ul>
+<li>According to the reviewer’s suggestion, we added several experiments, including the Random shooting method, the Cross-entropy method, and the MuZero + Continuous UCT (Progressive Widening) method.</li>
+<li>We carefully read the related works provided by all reviewers and cite them properly in the paper. We made a discussion to show the connection and difference between our method and the related work.</li>
+<li>We revised the Experiment section to make it easier to follow. Specifically, (1) we provided more experiment details in the main paper and the appendix. (2) We clarified several notations used in the ablation study.</li>
+<li>We revised the whole paper to make it easier to follow and fixed the typos.</li>
+<li>Last but not least, we thank all reviewers again for the effort they put into this paper which makes this paper better.</li>
+</ul>
+
       
     </div>
 
@@ -652,7 +1425,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/10/23/DL-%E6%9D%8E%E5%AE%8F%E6%AF%85/">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2023/08/01/chatglm-nar-%E5%AE%9E%E9%AA%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -666,7 +1439,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/10/23/DL-%E6%9D%8E%E5%AE%8F%E6%AF%85/" class="post-title-link" itemprop="url">DL-李宏毅</a>
+            <a href="/2023/08/01/chatglm-nar-%E5%AE%9E%E9%AA%8C/" class="post-title-link" itemprop="url">chatglm_nar_实验</a>
         </h2>
 
         <div class="post-meta">
@@ -676,14 +1449,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-10-23 19:19:37" itemprop="dateCreated datePublished" datetime="2022-10-23T19:19:37+08:00">2022-10-23</time>
+              <time title="创建时间：2023-08-01 15:11:49" itemprop="dateCreated datePublished" datetime="2023-08-01T15:11:49+08:00">2023-08-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-16 15:23:38" itemprop="dateModified" datetime="2022-11-16T15:23:38+08:00">2022-11-16</time>
+                <time title="修改时间：2023-08-21 22:11:20" itemprop="dateModified" datetime="2023-08-21T22:11:20+08:00">2023-08-21</time>
               </span>
 
           
@@ -697,16 +1470,237 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>Deep Learning —— 李宏毅</strong></p>
-<p>李宏毅老师深度学习教程</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/23/DL-%E6%9D%8E%E5%AE%8F%E6%AF%85/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>bleu4</th>
+<th>rouge-1</th>
+<th>rouge-2</th>
+<th>rouge-l</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lora_8_lr1e-5_dropout0.1_bsz16</td>
+<td>24.3302</td>
+<td>26.8352</td>
+<td>2.4029</td>
+<td>18.6493</td>
+</tr>
+<tr>
+<td>lora_8_lr5e-5_dropout0.1_bsz16</td>
+<td>26.2342</td>
+<td>28.559</td>
+<td>3.3021</td>
+<td>19.7914</td>
+</tr>
+<tr>
+<td>lora_8_lr5e-5_dropout0.3_bsz16</td>
+<td>24.5411</td>
+<td>27.4503</td>
+<td>2.7355</td>
+<td>19.0051</td>
+</tr>
+<tr>
+<td>lora_8_lr5e-5_dropout0.3_bsz16_notransforloss</td>
+<td>20.2076</td>
+<td>23.7027</td>
+<td>1.4875</td>
+<td>15.7775</td>
+</tr>
+<tr>
+<td>lora_8_chatmlmhype_bsz16</td>
+<td>24.4797</td>
+<td>28.1452</td>
+<td>2.7375</td>
+<td>19.4319</td>
+</tr>
+<tr>
+<td>lora_8_chatmlmhype_bsz32</td>
+<td>24.5471</td>
+<td>28.0172</td>
+<td>3.4089</td>
+<td>20.1745</td>
+</tr>
+<tr>
+<td>lora_8_chatmlmhype_bsz16_notransforloss</td>
+<td>22.9837</td>
+<td>24.9587</td>
+<td>1.4829</td>
+<td>17.5483</td>
+</tr>
+<tr>
+<td>lora_16_lr5e-5_dropout0.1_bsz32</td>
+<td>25.8004</td>
+<td>28.1528</td>
+<td>2.5924</td>
+<td>20.2674</td>
+</tr>
+<tr>
+<td>lora_32_lr5e-5_dropout0.1_bsz32</td>
+<td>25.9222</td>
+<td>27.9093</td>
+<td>3.4693</td>
+<td>19.9796</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ptuning_16_lr5e-3_dropout0.1_bsz32</td>
+<td>23.5914</td>
+<td>29.0533</td>
+<td>3.4218</td>
+<td>19.8996</td>
+</tr>
+<tr>
+<td>ptuning_32_lr5e-3_dropout0.1_bsz32</td>
+<td>25.8732</td>
+<td>28.8179</td>
+<td>3.3144</td>
+<td>19.4785</td>
+</tr>
+<tr>
+<td>ptuning_64_lr1e-3_dropout0.1_bsz32</td>
+<td>20.0821</td>
+<td>21.5092</td>
+<td>1.8975</td>
+<td>13.4896</td>
+</tr>
+<tr>
+<td>ptuning_96_lr1e-3_dropout0.1_bsz32</td>
+<td>14.0122</td>
+<td>20.7983</td>
+<td>1.5206</td>
+<td>14.7559</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>lora_32_cmlmc_lr5e-5_drop01</td>
+<td>23.3304</td>
+<td>23.5953</td>
+<td>2.0172</td>
+<td>16.7473</td>
+</tr>
+<tr>
+<td>lora_64_cmlmc_lr5e-5_drop01</td>
+<td>23.4122</td>
+<td>24.3169</td>
+<td>1.6409</td>
+<td>16.7384</td>
+</tr>
+<tr>
+<td>lora_90_cmlmc_lr5e-5_drop01</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ptuning_32_cmlmc_lr1e-3_drop01</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ptuning_64_cmlmc_lr1e-3_drop01</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ptuning_96_cmlmc_lr1e-3_drop01</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>增加训练的参数量</p>
+</li>
+<li><p>换p_tuningv2</p>
+</li>
+<li><p>cmlmc</p>
+</li>
+<li><p>数据集太小</p>
+</li>
+<li><p>任务类型不适配</p>
+</li>
+<li><p>PEFT不行</p>
+</li>
+<li><p>经过instruction tuning后有影响</p>
+</li>
+<li><p>在 alpaca 以及 belle 数据集上进行 instruction tuning（增大训练的epoch）</p>
+</li>
+<li><p>GLM 2B 直接 Fully Fine-Tuning Xsum</p>
+</li>
+<li><p>semi-autogressive</p>
+</li>
+<li><p>课程学习</p>
+</li>
+</ol>
+<p>cmlm </p>
+<ol>
+<li>训练效率  (disco  &#x2F;  electra)</li>
+<li>low-confidence</li>
+<li>长度固定</li>
+<li>mask-predict的过程放到内部？</li>
+</ol>
+<p>KNN</p>
+<p>1 decoding阶段并行的knn</p>
+<p>2 knn代替KD （datastore）</p>
+<p>其他任务：</p>
+<p>​	解毒</p>
+<p>​	文本风格迁移</p>
+<hr>
+<h4 id="bsz-x3D-num-devices-per-device-eval-batch-size-gradient-accumulation-steps"><a href="#bsz-x3D-num-devices-per-device-eval-batch-size-gradient-accumulation-steps" class="headerlink" title="bsz &#x3D; num_devices * per_device_eval_batch_size * gradient_accumulation_steps"></a>bsz &#x3D; num_devices * per_device_eval_batch_size * gradient_accumulation_steps</h4><h4 id="nar-data-True"><a href="#nar-data-True" class="headerlink" title="nar_data  True"></a>nar_data  True</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">save_path=/opt/data/private/ywj/ChatGLM-Efficient-Tuning/examples/training/xsum/lora_32_nar_lr5e-5_drop01</span><br><span class="line">mkdir -p $save_path</span><br><span class="line"><span class="comment"># save_path=test</span></span><br><span class="line">CUDA_VISIBLE_DEVICES=<span class="number">0</span>,<span class="number">1</span> accelerate launch ../src/train_bash.py \</span><br><span class="line">    --stage sft \</span><br><span class="line">    --do_train \</span><br><span class="line">    --dataset xsum_train,xsum_val_test \</span><br><span class="line">    --dataset_dir ../data \</span><br><span class="line">    --model_name_or_path /opt/data/private/ywj/ChatGLM-Efficient-Tuning/examples/models--THUDM--chatglm-6b/snapshots/294cb13118a1e08ad8449ca542624a5c6aecc401 \</span><br><span class="line">    --cache_dir /opt/data/private/ywj/ChatGLM-Efficient-Tuning/examples \</span><br><span class="line">    --overwrite_cache \</span><br><span class="line">    --finetuning_type lora \</span><br><span class="line">    --lora_rank <span class="number">32</span> \</span><br><span class="line">    --output_dir $&#123;save_path&#125; \</span><br><span class="line">    --per_device_train_batch_size <span class="number">4</span> \</span><br><span class="line">    --per_device_eval_batch_size <span class="number">4</span> \</span><br><span class="line">    --gradient_accumulation_steps <span class="number">4</span> \</span><br><span class="line">    --lr_scheduler_type cosine \</span><br><span class="line">    --evaluation_strategy steps \</span><br><span class="line">    --save_strategy steps \</span><br><span class="line">    --logging_steps <span class="number">100</span> \</span><br><span class="line">    --save_steps <span class="number">100</span> \</span><br><span class="line">    --eval_steps <span class="number">100</span> \</span><br><span class="line">    --learning_rate <span class="number">5e-5</span> \</span><br><span class="line">    --num_train_epochs <span class="number">1.0</span> \</span><br><span class="line">    --load_best_model_at_end \</span><br><span class="line">    --plot_loss \</span><br><span class="line">    --preprocessing_num_workers <span class="number">40</span>\</span><br><span class="line">    --fp16 \</span><br><span class="line">    --split train \</span><br><span class="line">    --lora_dropout <span class="number">0.1</span> \</span><br><span class="line">    --nar_data <span class="literal">True</span> \</span><br><span class="line">    --do_eval \</span><br><span class="line">    &gt; $&#123;save_path&#125;/lora_32_nar_lr5e-5_drop01.log  <span class="number">2</span>&gt;&amp;<span class="number">1</span> &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<hr>
+<h4 id="ChatMLM-Hype"><a href="#ChatMLM-Hype" class="headerlink" title="ChatMLM Hype"></a>ChatMLM Hype</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">save_path=/opt/data/private/ywj/ChatGLM-Efficient-Tuning/examples/training/xsum/lora_nar_mlmhype_bsz8</span><br><span class="line">mkdir -p $save_path</span><br><span class="line">save_path=test</span><br><span class="line">accelerate launch ../src/train_bash.py \</span><br><span class="line">    --stage sft \</span><br><span class="line">    --do_train \</span><br><span class="line">    --dataset xsum_train,xsum_val_test \</span><br><span class="line">    --dataset_dir ../data \</span><br><span class="line">    --model_name_or_path /opt/data/private/ywj/ChatGLM-Efficient-Tuning/examples/models--THUDM--chatglm-6b/snapshots/294cb13118a1e08ad8449ca542624a5c6aecc401 \</span><br><span class="line">    --cache_dir /opt/data/private/ywj/ChatGLM-Efficient-Tuning/examples \</span><br><span class="line">    --overwrite_cache \</span><br><span class="line">    --finetuning_type lora \</span><br><span class="line">    --output_dir $&#123;save_path&#125; \</span><br><span class="line">    --per_device_train_batch_size <span class="number">4</span> \</span><br><span class="line">    --per_device_eval_batch_size <span class="number">4</span> \</span><br><span class="line">    --gradient_accumulation_steps <span class="number">4</span> \</span><br><span class="line">    --lr_scheduler_type polynomial \</span><br><span class="line">    --evaluation_strategy steps \</span><br><span class="line">    --save_strategy steps \</span><br><span class="line">    --logging_steps <span class="number">100</span> \</span><br><span class="line">    --save_steps <span class="number">100</span> \</span><br><span class="line">    --eval_steps <span class="number">100</span> \</span><br><span class="line">    --adam_beta2 <span class="number">0.98</span> \</span><br><span class="line">    --learning_rate <span class="number">2e-5</span> \</span><br><span class="line">    --weight_decay <span class="number">0.01</span> \</span><br><span class="line">    --warmup_steps <span class="number">200</span> \</span><br><span class="line">    --num_train_epochs <span class="number">1.0</span> \</span><br><span class="line">    --load_best_model_at_end \</span><br><span class="line">    --plot_loss \</span><br><span class="line">    --preprocessing_num_workers <span class="number">40</span>\</span><br><span class="line">    --fp16 \</span><br><span class="line">    --split train \</span><br><span class="line">    --lora_dropout <span class="number">0.1</span> \</span><br><span class="line">    --nar_data <span class="literal">True</span> \</span><br><span class="line">    --do_eval \</span><br><span class="line">    &gt; $&#123;save_path&#125;/lora_nar_mlmhype_bsz8.log  <span class="number">2</span>&gt;&amp;<span class="number">1</span> &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<hr>
+<h3 id="Notransforloss"><a href="#Notransforloss" class="headerlink" title="Notransforloss"></a>Notransforloss</h3><h5 id="计算loss时是否有偏移"><a href="#计算loss时是否有偏移" class="headerlink" title="计算loss时是否有偏移"></a>计算loss时是否有偏移</h5><p><img src="/2023/08/01/chatglm-nar-%E5%AE%9E%E9%AA%8C/chatglm-nar-%E5%AE%9E%E9%AA%8C/image-20230801153222343.png" alt="image-20230801153222343"></p>
+<p>bash scripts&#x2F;ds_finetune_seq2seq.sh config_tasks&#x2F;model_blocklm_2B.sh config_tasks&#x2F;seq_customization.sh</p>
+<p>python change_mp.py &#x2F;opt&#x2F;data&#x2F;private&#x2F;ywj&#x2F;blocklm-2b-512 2</p>
+<p><img src="/2023/08/01/chatglm-nar-%E5%AE%9E%E9%AA%8C/chatglm-nar-%E5%AE%9E%E9%AA%8C/image-20230816170608003.png" alt="image-20230816170608003"></p>
+<p><img src="/2023/08/01/chatglm-nar-%E5%AE%9E%E9%AA%8C/chatglm-nar-%E5%AE%9E%E9%AA%8C/image-20230816181154322.png" alt="image-20230816181154322"></p>
+<p><img src="/2023/08/01/chatglm-nar-%E5%AE%9E%E9%AA%8C/chatglm-nar-%E5%AE%9E%E9%AA%8C/image-20230816181203584.png" alt="image-20230816181203584"></p>
+<h4 id="MASK-50264"><a href="#MASK-50264" class="headerlink" title="MASK: 50264"></a>MASK: 50264</h4><h4 id="PAD-50256"><a href="#PAD-50256" class="headerlink" title="PAD: 50256"></a>PAD: 50256</h4><h4 id="BOS-50257"><a href="#BOS-50257" class="headerlink" title="BOS: 50257"></a>BOS: 50257</h4><h4 id="EOS-50258"><a href="#EOS-50258" class="headerlink" title="EOS: 50258"></a>EOS: 50258</h4><p><img src="/2023/08/01/chatglm-nar-%E5%AE%9E%E9%AA%8C/chatglm-nar-%E5%AE%9E%E9%AA%8C/image-20230816184857118.png" alt="image-20230816184857118"></p>
+
       
     </div>
 
@@ -725,7 +1719,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/10/08/2022-10-7/">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2023/07/20/chatglm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -739,7 +1733,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/10/08/2022-10-7/" class="post-title-link" itemprop="url">2022-10-7</a>
+            <a href="/2023/07/20/chatglm/" class="post-title-link" itemprop="url">chatglm</a>
         </h2>
 
         <div class="post-meta">
@@ -749,24 +1743,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-10-08 00:18:00" itemprop="dateCreated datePublished" datetime="2022-10-08T00:18:00+08:00">2022-10-08</time>
+              <time title="创建时间：2023-07-20 15:39:17" itemprop="dateCreated datePublished" datetime="2023-07-20T15:39:17+08:00">2023-07-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-23 02:25:19" itemprop="dateModified" datetime="2022-10-23T02:25:19+08:00">2022-10-23</time>
+                <time title="修改时间：2023-08-01 15:14:05" itemprop="dateModified" datetime="2023-08-01T15:14:05+08:00">2023-08-01</time>
               </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/daily/" itemprop="url" rel="index"><span itemprop="name">daily</span></a>
-                </span>
-            </span>
 
           
 
@@ -779,15 +1764,61 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>国庆出去玩 - 保龄球 - 螺蛳粉</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/08/2022-10-7/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+<h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a><a href="chatglm-nar-%E5%AE%9E%E9%AA%8C.md">实验</a></h4><hr>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul>
+<li>改的代码是&#x2F;opt&#x2F;data&#x2F;private&#x2F;ChatGLM-Efficient-Tuning&#x2F;src&#x2F;pet&#x2F;sft&#x2F;workflow.py里面的第42和43行</li>
+</ul>
+<p><img src="/2023/07/20/chatglm/image-20230720154049520.png" alt="image-20230720154049520"></p>
+<ul>
+<li>以及注释掉了&#x2F;opt&#x2F;data&#x2F;private&#x2F;ChatGLM-Efficient-Tuning&#x2F;src&#x2F;dsets&#x2F;loader.py里面第106-109</li>
+</ul>
+<p>(注释掉输入一个数据集会有问题 **)</p>
+<p><img src="/2023/07/20/chatglm/image-20230722164001247.png" alt="image-20230722164001247"></p>
+<p>一个数据集改成 dataset[0]</p>
+<ul>
+<li><h4 id="更改mask采样方式"><a href="#更改mask采样方式" class="headerlink" title="更改mask采样方式"></a>更改mask采样方式</h4><h5 id="原始的处理方式"><a href="#原始的处理方式" class="headerlink" title="原始的处理方式:"></a>原始的处理方式:</h5><p><img src="/2023/07/20/chatglm/image-20230720162349416.png" alt="image-20230720162349416"></p>
+<p>—&gt;&gt;</p>
+<p><img src="/2023/07/20/chatglm/image-20230720162654863.png" alt="image-20230720162654863"></p>
+<p>输入 :   X + gmask(13001) + bos(13004)           +         Y + eos(13005)</p>
+<p>输出 ： [IGNORE_INDEX] ( -100 * LEN(X)+ 2)   +         Y + eos(13005)</p>
+<h5 id="修改："><a href="#修改：" class="headerlink" title="修改："></a>修改：</h5><p>&#x2F;opt&#x2F;data&#x2F;private&#x2F;ywj&#x2F;ChatGLM-Efficient-Tuning&#x2F;src&#x2F;hparams&#x2F;data_args.py</p>
+</li>
+</ul>
+<p>​	  添加参数   nar_data</p>
+<p><img src="/2023/07/20/chatglm/image-20230720173628047.png" alt="image-20230720173628047"></p>
+<p>&#x2F;opt&#x2F;data&#x2F;private&#x2F;ywj&#x2F;ChatGLM-Efficient-Tuning&#x2F;src&#x2F;dsets&#x2F;preprocess.py</p>
+<p><img src="/2023/07/20/chatglm/image-20230720234551198.png" alt="image-20230720234551198"></p>
+<p><img src="/2023/07/20/chatglm/image-20230720174551429.png" alt="image-20230720174551429"></p>
+<p> 先对 y  random mask 再和x拼接    mask_id(130000)  </p>
+<p>labels 中只有 mask位置的真实值  最后算loss ignore_idx&#x3D; -100        (? 这个mask用什么好  mask？ gmask？ pad？ ignore_idx？)</p>
+<ul>
+<li><h4 id="更改attention-mask"><a href="#更改attention-mask" class="headerlink" title="更改attention mask"></a>更改attention mask</h4></li>
+</ul>
+<h5 id="原始的attention-mask"><a href="#原始的attention-mask" class="headerlink" title="原始的attention_mask"></a>原始的attention_mask</h5><p><img src="/2023/07/20/chatglm/image-20230721014719239.png" alt="image-20230721014719239"></p>
+<h5 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h5><p>&#x2F;opt&#x2F;data&#x2F;private&#x2F;ywj&#x2F;ChatGLM-Efficient-Tuning&#x2F;src&#x2F;dsets&#x2F;collator.py</p>
+<p><img src="/2023/07/20/chatglm/image-20230721014938799.png" alt="image-20230721014938799"></p>
+<p><img src="/2023/07/20/chatglm/image-20230721014859114.png" alt="image-20230721014859114"></p>
+<ul>
+<li><h2 id="position"><a href="#position" class="headerlink" title="position"></a>position</h2><img src="/2023/07/20/chatglm/image-20230720205242285.png" alt="image-20230720205242285"></li>
+</ul>
+<p>先不改</p>
+<h1 id="Predict"><a href="#Predict" class="headerlink" title="Predict"></a>Predict</h1><h5 id="evaluation-dataset"><a href="#evaluation-dataset" class="headerlink" title="evaluation_dataset"></a>evaluation_dataset</h5><p><img src="/2023/07/20/chatglm/image-20230722152852150.png" alt="image-20230722152852150"></p>
+<h5 id="input-ids"><a href="#input-ids" class="headerlink" title="input_ids"></a>input_ids</h5><p><img src="/2023/07/20/chatglm/image-20230722164833647.png" alt="image-20230722164833647"></p>
+<h5 id="attrntion-mask"><a href="#attrntion-mask" class="headerlink" title="attrntion_mask"></a>attrntion_mask</h5><p><img src="/2023/07/20/chatglm/image-20230722165159945.png" alt="image-20230722165159945"></p>
+<h5 id="postion"><a href="#postion" class="headerlink" title="postion"></a>postion</h5><p><img src="/2023/07/20/chatglm/image-20230722164852109.png" alt="image-20230722164852109"></p>
+<h5 id="直接调用了-transformer的generate"><a href="#直接调用了-transformer的generate" class="headerlink" title="直接调用了 transformer的generate"></a>直接调用了 transformer的generate</h5><p><img src="/2023/07/20/chatglm/image-20230722170646828.png" alt="image-20230722170646828"></p>
+<p><img src="/2023/07/20/chatglm/image-20230722180055092.png" alt="image-20230722180055092"></p>
+<h1 id="修改-1"><a href="#修改-1" class="headerlink" title="修改"></a>修改</h1><h5 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h5><p>&#x2F;opt&#x2F;data&#x2F;private&#x2F;ywj&#x2F;ChatGLM-Efficient-Tuning&#x2F;src&#x2F;dsets&#x2F;preprocess.py</p>
+<p><img src="/2023/07/20/chatglm/image-20230724153803453.png" alt="image-20230724153803453"></p>
+<h5 id="input-ids-1"><a href="#input-ids-1" class="headerlink" title="input_ids"></a>input_ids</h5><h5 id><a href="#" class="headerlink" title></a><img src="/2023/07/20/chatglm/image-20230724155214853.png" alt="image-20230724155214853"></h5><h5 id="attention-mask-position-ids-不变"><a href="#attention-mask-position-ids-不变" class="headerlink" title="attention_mask  position_ids 不变"></a>attention_mask  position_ids 不变</h5><h6 id="-1"><a href="#-1" class="headerlink" title></a></h6><hr>
+<h2 id="实验-1"><a href="#实验-1" class="headerlink" title="实验"></a>实验</h2><hr>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p><img src="/2023/07/20/chatglm/image-20230724151726184.png" alt="image-20230724151726184"></p>
+<p>Y 为什么后面要加 gmask 和 sop</p>
+<p><img src="/2023/07/20/chatglm/image-20230726144238394.png" alt="image-20230726144238394"></p>
+<p><img src="/2023/07/20/chatglm/image-20230726144416287.png" alt="image-20230726144416287"></p>
+
       
     </div>
 
@@ -806,7 +1837,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2022/10/05/hexo%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2023/01/26/AMOM%E5%AE%9E%E9%AA%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -820,7 +1851,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/10/05/hexo%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">hexo上传图片问题</a>
+            <a href="/2023/01/26/AMOM%E5%AE%9E%E9%AA%8C/" class="post-title-link" itemprop="url">AMOM实验</a>
         </h2>
 
         <div class="post-meta">
@@ -830,24 +1861,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-10-05 22:46:12" itemprop="dateCreated datePublished" datetime="2022-10-05T22:46:12+08:00">2022-10-05</time>
+              <time title="创建时间：2023-01-26 18:38:27" itemprop="dateCreated datePublished" datetime="2023-01-26T18:38:27+08:00">2023-01-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-06 02:03:31" itemprop="dateModified" datetime="2022-10-06T02:03:31+08:00">2022-10-06</time>
+                <time title="修改时间：2023-03-22 13:42:05" itemprop="dateModified" datetime="2023-03-22T13:42:05+08:00">2023-03-22</time>
               </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-                </span>
-            </span>
 
           
 
@@ -860,15 +1882,416 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>使用hexo搭建博客上传图片中遇到的问题和解决办法</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/05/hexo%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+<p><strong>AMOM</strong></p>
+<ol>
+<li>对  tgt_token 进行 random-mask  ,  得到 prev_output_tokens 以及 被mask的比例  y_mask</li>
+<li>根据 y_mask 对 输入 X 进行 <em><strong>ada_x_masking</strong></em> , 得到 src_tokens_ada</li>
+<li>src_tokens_ada 作为 encoder 端输入得到 <strong>encoder_out_ada</strong></li>
+<li>encoder_out_ada ,  prev_output_tokens 输入 decoder得到  <strong>word_ins_out</strong></li>
+<li>word_ins_out 与 tgt_token 比较，计算正确率，通过一个函数映射得到 b</li>
+<li>根据 b 得到对 Y 进行 <em><strong>ada_y_masking</strong></em> ,得到新的 Ymask 以及 Yobs 组成的 prev _output_tokens_aday </li>
+<li>步骤2 ，3， 得到 <strong>encoder_out_aday</strong></li>
+<li>步骤4 得到 <strong>word_ins_out_aday</strong></li>
+</ol>
+<p>整个过程做了两次 ada_x_masking ( 步骤2,7 ) ，一次 ada_y_masking( 步骤6 ) , 经过两次 encoder ， 两次 decoder。</p>
+<p><strong>CMLMC</strong></p>
+<p><img src="/2023/01/26/AMOM%E5%AE%9E%E9%AA%8C/image-20230126195007423.png" alt="image-20230126195007423"></p>
+<p>前半部分就是一个cmlm的模型，可以在这里直接采用ada的方式</p>
+<p>或者是针对每一个decoder都再做一遍ada_y_mask,这样感觉开销太大了</p>
+<p>cmlmc的返回是一个列表，需要在nat_loss中作相应的修改</p>
+<p>concatPE 和 insertCausalSelfAttn的实现需要注意 nat_transformer.py  transformer.py      transformer_layer.py</p>
+<p> multihead_attention.py 中的修改</p>
+<p>update_num 参数加上</p>
+<p><strong>JM-NAT</strong></p>
+<p><img src="/2023/01/26/AMOM%E5%AE%9E%E9%AA%8C/image-20230126211700809.png" alt="image-20230126211700809"></p>
+<p>Encoder 采用了BERT的掩码策略</p>
+<p>jmnat 将 XY 放在一起设计了一个数据类</p>
+<p>使用了 <mask>标签 没有用 unk</mask></p>
+<p>对source做mask</p>
+<p>加上positional_attention 层</p>
+<p>n-gram mask</p>
+<p>n-gram loss</p>
+<h2 id="实验结果汇总"><a href="#实验结果汇总" class="headerlink" title="实验结果汇总:"></a>实验结果汇总:</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th align="center">IWST14DE-EN</th>
+<th align="center">WMT14 EN -DE</th>
+<th align="center">WMT14 DE -EN</th>
+<th align="center">WMT16 EN -RO</th>
+<th align="center">WMT16 RO -EN</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CMLM</td>
+<td></td>
+<td align="center">33.87 *</td>
+<td align="center">27.21</td>
+<td align="center">31.03</td>
+<td align="center">33.46</td>
+<td align="center">33.83</td>
+</tr>
+<tr>
+<td>CMLM+AMOM</td>
+<td></td>
+<td align="center">34.71 *</td>
+<td align="center">27.57</td>
+<td align="center">31.67</td>
+<td align="center">34.62</td>
+<td align="center">34.82</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>CMLMC</td>
+<td></td>
+<td align="center">34.41 *</td>
+<td align="center">28.60 *</td>
+<td align="center">32.26</td>
+<td align="center">33.99 *</td>
+<td align="center">34.48 *</td>
+</tr>
+<tr>
+<td>CMLMC+AMOM</td>
+<td></td>
+<td align="center">35.34 *</td>
+<td align="center">28.88 *</td>
+<td align="center">33.28</td>
+<td align="center">35.01 *</td>
+<td align="center">35.45 *</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>&#x2F;opt&#x2F;data&#x2F;private&#x2F;data&#x2F;fairseq-0.10.2&#x2F;train&#x2F;amom_cmlmc&#x2F;amom_cmlmc_wmt14_de_en&#x2F;de_en_cmlmc_amom_avg.pt</p>
+<p>&#x2F;opt&#x2F;data&#x2F;private&#x2F;data&#x2F;fairseq-0.10.2&#x2F;train&#x2F;amom_cmlmc&#x2F;amom_cmlmc_wmt14_en_de&#x2F;en_de_cmlmc_amom_avg.pt</p>
+<p>&#x2F;opt&#x2F;data&#x2F;private&#x2F;data&#x2F;fairseq-0.10.2&#x2F;train&#x2F;amom_cmlmc&#x2F;amom_cmlmc_wmt16_en_ro&#x2F;en_ro_cmlmc_amom_avg.pt</p>
+<p>&#x2F;opt&#x2F;data&#x2F;private&#x2F;data&#x2F;fairseq-0.10.2&#x2F;train&#x2F;amom_cmlmc&#x2F;amom_cmlmc_wmt16_ro_en&#x2F;ro_en_cmlmc_amom_avg.pt</p>
+<h5 id="Finetune"><a href="#Finetune" class="headerlink" title="Finetune"></a>Finetune</h5><p>Xsum</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="center">R-1</th>
+<th align="center">R-2</th>
+<th align="center">R-L</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BART + CMLM</td>
+<td align="center">39.49</td>
+<td align="center">15.94</td>
+<td align="center">31.58</td>
+</tr>
+<tr>
+<td>\w   fully-mask (  iter 0 )</td>
+<td align="center">32.73</td>
+<td align="center">8.54</td>
+<td align="center">26.68</td>
+</tr>
+<tr>
+<td></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>BART + AMOM</td>
+<td align="center">39.86</td>
+<td align="center">16.19</td>
+<td align="center">32.03</td>
+</tr>
+<tr>
+<td>\o     x-mask</td>
+<td align="center">39.78</td>
+<td align="center">16.16</td>
+<td align="center">31.94</td>
+</tr>
+<tr>
+<td>\w   10% x-mask</td>
+<td align="center">39.90</td>
+<td align="center">16.08</td>
+<td align="center">31.86</td>
+</tr>
+<tr>
+<td></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>BART + Glat （ iter 0 ）</td>
+<td align="center">37.41</td>
+<td align="center">13.09</td>
+<td align="center">30.26</td>
+</tr>
+</tbody></table>
+<p>squadqg</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ROUGE-L</th>
+<th>BLEU4</th>
+<th>METEOR</th>
+<th>OVERALL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cmlm</td>
+<td>30.75</td>
+<td>4.25</td>
+<td>10.30</td>
+<td></td>
+</tr>
+<tr>
+<td>amom</td>
+<td>28.22</td>
+<td>2.69</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>amom  o &#x2F; xmask</td>
+<td>30.88</td>
+<td>3.46</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>amom  o &#x2F; sepmask</td>
+<td>31.25</td>
+<td>5.19</td>
+<td>10.86</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bart + cmlm</td>
+<td>47.69</td>
+<td>17.19</td>
+<td>21.56</td>
+<td></td>
+</tr>
+<tr>
+<td>bart + amom</td>
+<td>47.98</td>
+<td>17.40</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bart + amom o &#x2F; xmask</td>
+<td>48.23</td>
+<td>17.09</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bart + amom  o &#x2F; sepmask</td>
+<td>48.24</td>
+<td>17.31</td>
+<td>21.35</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>personalchat</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>BLEU1</th>
+<th>BLEU2</th>
+<th>D-1</th>
+<th>D-2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cmlm</td>
+<td>41.79</td>
+<td>34.81</td>
+<td>1.17</td>
+<td>10.61</td>
+</tr>
+<tr>
+<td>amom</td>
+<td>45.31</td>
+<td>36.62</td>
+<td>1.15</td>
+<td>9.58</td>
+</tr>
+<tr>
+<td>bart + cmlm</td>
+<td>47.54</td>
+<td>38.84</td>
+<td>1.84</td>
+<td>14.99</td>
+</tr>
+<tr>
+<td>bart + amom</td>
+<td>49.50</td>
+<td>39.51</td>
+<td>1.72</td>
+<td>13.54</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="AMOM-遇到的问题及解决办法"><a href="#AMOM-遇到的问题及解决办法" class="headerlink" title="AMOM 遇到的问题及解决办法"></a><strong>AMOM 遇到的问题及解决办法</strong></h3><ul>
+<li><pre><code> ImportError: /opt/conda/lib/python3.8/site-packages/fused_layer_norm_cuda.cpython-38-x86_64-linux-gnu.so: undefined symbol: _ZNK2at6Tensor7optionsEv 
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">apex 的问题 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+git clone https://github.com/NVIDIA/apex.git &amp;&amp; cd apex &amp;&amp; pip install -v --no-cache-dir --global-option=&quot;--cpp_ext&quot; --global-option=&quot;--cuda_ext&quot; . &amp;&amp; cd .. &amp;&amp; rm -rf apex
+</code></pre>
+</li>
+<li><p>训练脚本中的 <strong>stop-min-lr</strong> 参数在0.10.2版本中没有</p>
+<p>暂时删除</p>
+</li>
+<li><p>transformer.py 中 encoder_out的类型问题</p>
+</li>
+</ul>
+<p>​		换一份老版本的transformer</p>
+<ul>
+<li><p>prev_output_token 和 tgt_token 大小不一致</p>
+<p>amom源代码中的translation_lev默认是加了 random_noise的 </p>
+<p>10.2的源代码中需要自己添加参数 –noise random_noise</p>
+</li>
+<li><p>keyvalueerror : bleu</p>
+<p>task translation_lev 中的valid_step需要替换</p>
+</li>
+<li><p>AttributeError: module ‘sacrebleu’ has no attribute ‘compute_bleu’</p>
+</li>
+</ul>
+<p>​		版本问题，pip install sacrebleu&#x3D;&#x3D;1.5.1</p>
+<ul>
+<li>generate时 TypeError: can’t convert cuda:0 device type tensor to numpy. Use Tensor.cpu() to copy the tensor to host memory first.</li>
+</ul>
+<p>​		将报错代码_tensor.py 中 self.<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=numpy&spm=1001.2101.3001.7020">numpy</a>()改为self.cpu().numpy()</p>
+<ul>
+<li><p>实现的cmlmc代码参数量与源代码不一致</p>
+<p>insertCausalSelfAttn 在 transformer_layer.py ，multihead_attention.py中没有实现 </p>
+</li>
+<li><p>jmnat   masked_langage     init__() takes 1 positional argument but 4 were given</p>
+<p>由于dictionary.py文件在新版中加了一些参数，所以需要指定好初始化时的参数名称 pad&#x3D;pad eos&#x3D;eos unk&#x3D;unk</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2023/01/13/fairseq-usage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Moriarty">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Moriarty' blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/01/13/fairseq-usage/" class="post-title-link" itemprop="url">fairseq_usage</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-01-13 04:18:04" itemprop="dateCreated datePublished" datetime="2023-01-13T04:18:04+08:00">2023-01-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-26 17:26:09" itemprop="dateModified" datetime="2023-09-26T17:26:09+08:00">2023-09-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install --editable ./</span><br><span class="line"></span><br><span class="line">conda install pytorch==1.10.0 torchvision==0.11.0 torchaudio==0.10.0 cudatoolkit=10.2 -c pytorch</span><br></pre></td></tr></table></figure>
+
+
+
+<p>conda info –envs</p>
+<p>conda remove -n name -all</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ImportError: /opt/conda/lib/python3.8/site-packages/fused_layer_norm_cuda.cpython-38-x86_64-linux-gnu.so: undefined symbol: _ZNK2at6Tensor7optionsEv</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> apex 的问题</span><br><span class="line"> </span><br><span class="line">git clone https://github.com/NVIDIA/apex.git &amp;&amp; cd apex &amp;&amp; pip install -v --no-cache-dir --global-option=&quot;--cpp_ext&quot; --global-option=&quot;--cuda_ext&quot; . &amp;&amp; cd .. &amp;&amp; rm -rf apex</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>Scp传输数据</strong></p>
+<h6 id="从本地复制到远程"><a href="#从本地复制到远程" class="headerlink" title="从本地复制到远程"></a>从本地复制到远程</h6><p>​	scp -r -P 25701 &#x2F;opt&#x2F;data&#x2F;private&#x2F;ywj&#x2F;knn_disco&#x2F;models <a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#x34;&#50;&#x2e;&#50;&#52;&#x34;&#x2e;&#51;&#56;&#x2e;&#x39;&#51;">&#x72;&#x6f;&#111;&#x74;&#64;&#x34;&#50;&#x2e;&#50;&#52;&#x34;&#x2e;&#51;&#56;&#x2e;&#x39;&#51;</a>:&#x2F;opt&#x2F;data&#x2F;private&#x2F;ywj</p>
+<p>​	scp -r -P 22 .&#x2F;Models <a href="mailto:&#103;&#112;&#64;&#49;&#48;&#46;&#49;&#48;&#46;&#x38;&#49;&#46;&#x31;&#x32;">&#103;&#112;&#64;&#49;&#48;&#46;&#49;&#48;&#46;&#x38;&#49;&#46;&#x31;&#x32;</a>:&#x2F;data&#x2F;gp&#x2F;dataset</p>
+<p>&#x2F;opt&#x2F;data&#x2F;private&#x2F;data&#x2F;fairseq-0.10.2&#x2F;pretrain_scripts</p>
+<p>​	scp -r .&#x2F;chatgpt-robust <a href="mailto:&#x6c;&#106;&#x74;&#x40;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#x38;&#x2e;&#x31;&#x32;&#x36;&#x2e;&#x38;&#x31;">&#x6c;&#106;&#x74;&#x40;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#x38;&#x2e;&#x31;&#x32;&#x36;&#x2e;&#x38;&#x31;</a>:&#x2F;public&#x2F;home&#x2F;ljt&#x2F;ywj</p>
+<p>scp -r .&#x2F;llama_model <a href="mailto:&#x6c;&#x6a;&#116;&#64;&#x31;&#57;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#x31;&#50;&#x36;&#x2e;&#x38;&#49;">&#x6c;&#x6a;&#116;&#64;&#x31;&#57;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#x31;&#50;&#x36;&#x2e;&#x38;&#49;</a>:&#x2F;public&#x2F;home&#x2F;ljt&#x2F;ywj</p>
+<p>scp -r -P 25986 .&#x2F;ywj <a href="mailto:&#114;&#111;&#111;&#116;&#64;&#x34;&#50;&#46;&#x32;&#x34;&#x34;&#46;&#x33;&#x38;&#x2e;&#x39;&#51;">&#114;&#111;&#111;&#116;&#64;&#x34;&#50;&#46;&#x32;&#x34;&#x34;&#46;&#x33;&#x38;&#x2e;&#x39;&#51;</a>:&#x2F;opt&#x2F;data&#x2F;private&#x2F;ywj</p>
+<p>curl “<a target="_blank" rel="noopener" href="http://a.suda.edu.cn:801/eportal/">http://a.suda.edu.cn:801/eportal/</a>? c&#x3D;Portal&amp;a&#x3D;login&amp;callback&#x3D;dr1008&amp;login_method&#x3D;1&amp;user_account&#x3D;%2C0%2C1927405135&amp;user_password&#x3D; 7226526277</p>
+<p><a target="_blank" rel="noopener" href="http://a.suda.edu.cn:801/eportal/?c=Portal&amp;a=login&amp;callback=dr1008&amp;login_method=1&amp;user_account=20224227004&amp;user_password=sudaszc98&amp;wlan_user_ip=192.168.126.81&amp;wlan_user_ipv6=&amp;wlan_user_mac=6C92BFC1A637&amp;wlan_ac_ip=&amp;wlan_ac_name=&amp;jsVersion=3.3.3&amp;v=4353">http://a.suda.edu.cn:801/eportal/?c=Portal&amp;a=login&amp;callback=dr1008&amp;login_method=1&amp;user_account=20224227004&amp;user_password=sudaszc98&amp;wlan_user_ip=192.168.126.81&amp;wlan_user_ipv6=&amp;wlan_user_mac=6C92BFC1A637&amp;wlan_ac_ip=&amp;wlan_ac_name=&amp;jsVersion=3.3.3&amp;v=4353</a></p>
+<p> 1951  conda install pytorch&#x3D;&#x3D;1.8.0 torchvision&#x3D;&#x3D;0.9.0 torchaudio&#x3D;&#x3D;0.8.0 cudatoolkit&#x3D;10.2 -c pytorch<br> 1952  pip install -v –disable-pip-version-check –no-cache-dir –no-build-isolation –config-settings “–build-option&#x3D;–cpp_ext” –config-settings “–build-option&#x3D;–cuda_ext” –global-option&#x3D;”–cuda_ext” .&#x2F;<br> 1953  cd ..<br> 1954  nvcc –version<br> 1955  pip install -v –disable-pip-version-check –no-cache-dir –global-option&#x3D;”–cpp_ext” –global-option&#x3D;”–cuda_ext” .&#x2F;<br> 1956  cd apex<br> 1957  pip install -v –disable-pip-version-check –no-cache-dir –global-option&#x3D;”–cpp_ext” –global-option&#x3D;”–cuda_ext” .&#x2F;<br> 1958  pip install -v –disable-pip-version-check –no-cache-dir –no-build-isolation –global-option&#x3D;”–cpp_ext” –global-option&#x3D;”–cuda_ext” .&#x2F;<br> 1959  comda activate chatglm_etuning2<br> 1960  conda activate chatglm_etuning2<br> 1961  cd private&#x2F;<br> 1962  cd ywj&#x2F;ChatGLM-Efficient-Tuning&#x2F;examples&#x2F;<br> 1963  bash &#x2F;opt&#x2F;data&#x2F;private&#x2F;ywj&#x2F;ChatGLM-Efficient-Tuning&#x2F;examples&#x2F;train_sft_nar_alpaca.sh<br> 1964  nvidia-smi<br> 1965  conda activate glm<br> 1966  ls<br> 1967  cd glm<br> 1968  ls<br> 1969  python<br> 1970  pip uninstall apex<br> 1971  git clone <a target="_blank" rel="noopener" href="https://github.com/ptrblck/apex.git">https://github.com/ptrblck/apex.git</a><br> 1972  cd apex&#x2F;<br> 1973  git checkout apex_no_distributed<br> 1974  pip install -v –no-cache-dir .&#x2F;<br> 1975  python<br> 1976  cd ..<br> 1977  bash scripts&#x2F;ds_finetune_seq2seq.sh config_tasks&#x2F;model_blocklm_2B.sh config_tasks&#x2F;seq_cnndm_org.sh<br> 1978  bash scripts&#x2F;ds_finetune_seq2seq.sh config_tasks&#x2F;model_blocklm_2B.sh config_tasks&#x2F;seq_xsum.sh</p>
+<p>bash scripts&#x2F;ds_finetune_seq2seq.sh config_tasks&#x2F;model_blocklm_2B.sh config_tasks&#x2F;seq_customization.sh</p>
+<p>python change_mp.py &#x2F;opt&#x2F;data&#x2F;private&#x2F;ywj&#x2F;blocklm-2b-512 2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export CUDA_HOME=/usr/local/cuda-9.0</span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -886,7 +2309,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -952,7 +2375,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1005,7 +2428,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"moriarty0923.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="TEXT GENERATION VIA BERT FAMILY The BERT model, introduced by Devlin et al. (2018), marked a breakthrough in NLP by leveraging the Transformer architecture and large-scale pretraining. The BERT mo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="text_generation_via_bert_family">
+<meta property="og:url" content="https://moriarty0923.github.io/2023/10/17/text-generation-via-bert-family/index.html">
+<meta property="og:site_name" content="Moriarty&#39; blog">
+<meta property="og:description" content="TEXT GENERATION VIA BERT FAMILY The BERT model, introduced by Devlin et al. (2018), marked a breakthrough in NLP by leveraging the Transformer architecture and large-scale pretraining. The BERT mo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-17T13:51:46.000Z">
+<meta property="article:modified_time" content="2023-10-17T13:53:28.025Z">
+<meta property="article:author" content="Moriarty">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://moriarty0923.github.io/2023/10/17/text-generation-via-bert-family/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>text_generation_via_bert_family | Moriarty' blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Moriarty' blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-books">
+
+    <a href="/books/" rel="section"><i class="fa fa-calendar fa-fw"></i>books</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://moriarty0923.github.io/2023/10/17/text-generation-via-bert-family/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Moriarty">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Moriarty' blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          text_generation_via_bert_family
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-10-17 21:51:46 / 修改时间：21:53:28" itemprop="dateCreated datePublished" datetime="2023-10-17T21:51:46+08:00">2023-10-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <span id="more"></span>
+
+
+
+<p>TEXT GENERATION VIA BERT FAMILY</p>
+<p>The BERT model, introduced by Devlin et al. (2018), marked a breakthrough in NLP by leveraging the Transformer architecture and large-scale pretraining. The BERT model architecture is a multi-layer bidirectional Transformer encoder (Vaswani et al. 2017) with stacked L<br>identical blocks, in which each block comprises two sub-<br>layers: a multi-head self-attention layer and the fully con-<br>nected feed-forward layer. 双向的建模特性使BERT learns contextual word representations , enabling it to capture rich semantic information.</p>
+<p> BERT, introduced by Devlin et al. (2018), revolutionized the field of Natural Language Processing (NLP) by leveraging the Transformer architecture and large-scale pretraining. BERT is a typical encoder-only architecture, consisting of multi-layer bidirectional Transformer encoder (Vaswani et al., 2017) with stacked identical blocks. Each block comprises two sub-layers: a multi-head self-attention layer and a fully connected feed-forward layer. The bidirectional modeling characteristic of BERT enables it to learn contextual word representations, facilitating the capture of comprehensive semantic information. Building upon the foundation laid by BERT, researchers have further explored and expanded the capabilities of original BERT architecture, leading to the development of the BERT family, such as  RoBERTa (Liu et al. 2019), Electra (Clark et al. 2020), DeBERTa (He et al.2020), and XLM-R (Conneau et al. 2020) et al. The BERT family represents a collective endeavor to advance the field of NLP, with each member contributing unique insights and innovations.</p>
+<p>With their encoder structure and parallelizable masked language model (MLM) objective, the BERT family is renowned for its ability  in natural language understanding (NLU) tasks. However,  there is a scarcity of research that delves into their potential for text generation tasks.</p>
+<p>Previous works (Dong et al., 2019; Wang et al., 2019) have theoretically indicated that BERT family can be treated as Markov Random Field Language Model, which can produce high-quality and fluent textual content. However, BERT family is stiil typically used to extract context features instead of generating texts (Zhu et al. 2019; Guo et al. 2020; Yang et al.2020). One exception is LongBert (2023), which incorpoationg non-autogressive generation into text generation via pre-trained MLMs.</p>
+<p> lthough these methods<br>can introduce the BERT structure in text generation tasks<br>with positive feedback on performance, they still limit the<br>use of the BERT family in text generation, either because of<br>additional task-specific parameters or extra pre-training.</p>
+<p>the MLM encoder can support text generation tasks via 178 attention masks or Gibbs sampling.</p>
+<p>even with the theoretical discovery that MLM can be treated<br>as a Markov Random Field Language Model, which can pro-<br>duce high-quality and fluent textual content.</p>
+<p>previous works are </p>
+<p>Pre-trained MLMs are typically used as the encoder 174 to extract the representations of sentences instead 175 of generating texts. Previous works (Dong et al., 176 2019; Wang et al., 2019) have indicated that the 177 MLM encoder can support text generation tasks via 178 attention masks or Gibbs sampling. In contrast, we 179 introduce mixed attention and parameter sharing to 180 the encoder-based model to solve the sequence to 181 sequence tasks, as shown in Figure 1.</p>
+<p>Instruction tuning refers to the process of fine-tuning LLMs on an instruction dataset consisting of (INSTRUCTION, OUTPUT) pairs in a supervised fashion, which narrows the gap between the next-word prediction objective of LLMs and the users’ objective of having LLMs adhere to human instructions (Zhang). The concept of consolidating diverse NLP tasks as generative tasks was pioneered by the T5 model (Raffel et al., 2020). By utilizing task-specific prompts to guide the model, it becomes easier to apply LLMs to a wide range of applications. Subsequent instruction tuning models, such as FLAN (Wei et al., 2021; Chung et al., 2022) and T0 (Sanh et al., 2021), have further improved performance across diverse tasks by incorporating more task-specific instructions during the pre-training phase. Currently, instruction tuning represents an important research direction in NLP. The open-source community offers a variety of instruction datasets, such as xP3 (Muennighoff et al., 2022), Alpaca (Taori et al., 2023), and Dolly (Conover et al., 2023), as well as instruction fine-tuned LLMs, such as BLOOMZ (Muennighoff et al., 2022), FLAN-T5 (Chung et al., 2022), and Alpaca (Taori et al., 2023). However, the backbone of present instruction fine-tuned LLMs is mainly encoder-decoder and decoder-only based. The instruction-following capabilities of the BERT family, which are encoder-only based models, are severely under-explored. In this work, we introduced Instruct-XMLR to explore the potential and limitations of the BERT family for instruction-following.</p>
+<p>Non-autoregressive generation allows for parallel generation, where tokens are generated simultaneously without relying on previous generation results.</p>
+<p>Non-autoregressive (NAR) models (Oord et al., 2017; Gu et al., 2017; Chen et al., 2019; Ren et al., 2019), which generate all the tokens in a target sequence in parallel are widely explored in natural language processing tasks (Gu et al., 2017; Lee et al., 2018; Guo et al., 2019a; Wang et al., 2019; Li et al., 2019b; Guo et al., 2019b). Parallel sequence decoding hugely reduces the inference latency by neglecting the conditional dependency between output tokens, based on novel decoding algorithms including nonautoregressive decoding , insertion-based decoding  and Mask-Predict. A typical model is CMLM, which can refinement the results conditioned on the predictions from previous iterations.</p>
+<p>Non-autoregressive (NAR) models generate all the tokens of a sequence in parallel, resulting in faster generation speed compared to their autoregressive (AR) counterparts but at the cost of lower accuracy.</p>
+<p>Non-autoregressive generation is a text generation approach that differs from traditional autoregressive methods. In autoregressive generation, each generated token depends on previously generated tokens, resulting in a sequential generation process where one token is generated at a time. In contrast, non-autoregressive generation allows for parallel generation, where tokens are generated simultaneously without relying on previous generation results.</p>
+<p>The main advantage of non-autoregressive generation is its speed. By enabling parallel processing, non-autoregressive models can generate text much faster compared to autoregressive models. This makes non-autoregressive generation particularly useful for large-scale text generation tasks such as machine translation, summarization, and dialogue systems.</p>
+<p>However, non-autoregressive generation also faces challenges. Since it does not rely on context information from previous tokens, there is a risk of generating text that lacks coherence and consistency. To mitigate this issue, researchers have proposed various techniques, including the use of masking mechanisms, leveraging pre-trained models, and incorporating additional constraints.</p>
+<p>Recent works~\cite{chan2019recurrent,jiang2021improving,su2021non,liang2023open} explore the application of the BERT family in non-autoregressive generation using MLM, and receive positive feedback regarding performance. Non-autoregressive generation hugely reduces the inference latency by neglecting the conditional dependency between output tokens based on novel decoding algorithms. </p>
+<p>A notable model in this category is CMLM, which extends the conditional masked language modeling (MLM) technique and refines the results based on predictions from previous iterations. Found that the conditional MLM and Mask-Predict are suitable for the BERT family, which keeps the training and inference objective consistent with pre-training. In our work, we further utilize CMLM to adapt the BERT structure for text generation, incorporating our proposed dynamic mixed-attention mechanism.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/10/09/small-models-reasoning/" rel="prev" title="small_models_reasoning">
+      <i class="fa fa-chevron-left"></i> small_models_reasoning
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Moriarty</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://p7qnhh1nqx.feishu.cn/wiki/wikcnu4ROjCNXxoCk0jeOBmDwZc" title="https:&#x2F;&#x2F;p7qnhh1nqx.feishu.cn&#x2F;wiki&#x2F;wikcnu4ROjCNXxoCk0jeOBmDwZc" rel="noopener" target="_blank">工作日报</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/14898606/favlist" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;14898606&#x2F;favlist" rel="noopener" target="_blank">学习资源</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Moriarty</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
